@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarHalfIcon from "@material-ui/icons/StarHalf";
-import PropTypes from "prop-types";
 
 function Rating({ rating, text }) {
   return (
@@ -58,10 +57,5 @@ function Rating({ rating, text }) {
     </>
   );
 }
-
-Rating.propTypes = {
-  rating: PropTypes.number.isRequired,
-  text: PropTypes.string.isRequired,
-};
 
 export default Rating;

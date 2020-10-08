@@ -4,18 +4,7 @@ import { Card } from "react-bootstrap";
 import Rating from "./Rating";
 
 const Product = ({ product }) => {
-  //  {
-  //   _id,
-  //   name,
-  //   image,
-  //   description,
-  //   brand,
-  //   category,
-  //   price,
-  //   countInStock,
-  //   rating,
-  //   numReviews,
-  // }
+
 
   return (
     <>

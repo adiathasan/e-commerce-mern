@@ -12,7 +12,6 @@ header {
 
 .favicon {
   height: 30px;
-  color: #00d9ff;
 }
 
 .rating {
@@ -25,4 +24,23 @@ header {
 .rating .MuiSvgIcon-root {
   color: orange;
   transform: scale(0.9);
+}
+
+header a {
+  color: lightgray;
+  transition: 0.15s ease-in-out;
+}
+
+header a > sup {
+  transform: scale(1.4);
+  color: rgb(255, 123, 0);
+}
+
+header a:hover {
+  color: white;
+  text-decoration-line: none;
+}
+
+.active {
+  color: #00a2ff;
 }
