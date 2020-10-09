@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const DB_URI_KEY = `mongodb+srv://adiat-hasan:Ar271997@cluster0.blejq.mongodb.net/k-shop?retryWrites=true&w=majority`;
+dotenv.config();
 
 // connection
 
 const dbConfig = async () => {
   try {
+    const DB_URI_KEY = process.env.DB_URI_KEY.toString();
     const conn = await mongoose.connect(DB_URI_KEY, {
       useNewUrlParser: true,
       useCreateIndex: true,
@@ -18,4 +20,4 @@ const dbConfig = async () => {
   }
 };
 
-export { dbConfig, DB_URI_KEY };
+export { dbConfig };

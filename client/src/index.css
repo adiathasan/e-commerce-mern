@@ -44,3 +44,12 @@ header a:hover {
 .active {
   color: #00a2ff;
 }
+
+.spin {
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  top: 45vh;
+  left: 45vw;
+  color: rgb(0, 0, 0);
+}
