@@ -16,6 +16,7 @@ dbConfig();
 // middleware
 
 app.use(cors());
+app.use(express.json());
 
 // requests
 app.get("/", (req, res) => {

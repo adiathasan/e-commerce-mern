@@ -10,7 +10,7 @@ import {
   Button,
   Card,
 } from "react-bootstrap";
-import BackspaceIcon from "@material-ui/icons/Backspace";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import Message from "../components/Message";
 import { Link } from "react-router-dom";
 import { addToCartAction, removeFromCartAction } from "../actions/cartActions";
@@ -73,10 +73,10 @@ const CartScreen = () => {
                   <Col md={2}>
                     <Button
                       onClick={() => handleRemoveItem(item.cartProduct)}
-                      variant="dark"
-                      className="btn-block"
+                      // variant="dark"
+                      className="btn-block btn-danger text-center"
                     >
-                      <BackspaceIcon />
+                      <DeleteForeverIcon style={{ transform: "scale(.8)" }} />
                     </Button>
                   </Col>
                 </Row>
