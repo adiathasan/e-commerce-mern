@@ -5,14 +5,19 @@ import Message from "../components/Message.jsx"
 import Loader from "../components/Loader.jsx"
 import {Link, useHistory} from 'react-router-dom'
 import { userLoginAction } from '../actions/userActions.js'
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const dispatch = useDispatch()
     const history = useHistory()
+	const [showPassword, setShowPassword] = useState(false);
     const {isLoading, message, user} = useSelector(state => state.userInfo)
-
+	const handleShowPassword = () => {
+		setShowPassword(!showPassword)
+	} 
     useEffect(()=> {
         if(user){
             history.push('/')
@@ -40,10 +45,25 @@ const LoginScreen = () => {
                         Email
                     </Form.Label>
                     <Form.Control required type="email" placeholder="Enter Email" value={email} onChange={(e)=> setEmail(e.target.value)}></Form.Control>
+                <Form.Group controlId="password">
+
                     <Form.Label>
                         Password
                     </Form.Label>
-                    <Form.Control required type="password" placeholder="Enter Password" value={password} onChange={(e)=> setPassword(e.target.value)}></Form.Control>
+                    <div className="d-flex align-items-center justify-content-center">
+                        <Form.Control
+                            required
+                            type={showPassword ? "text": "password"}
+                            placeholder="Enter Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}>
+                        </Form.Control>
+                            {
+                                showPassword ? <VisibilityOffIcon onClick={handleShowPassword}/> : <VisibilityIcon onClick={handleShowPassword}/>
+                            }
+                    </div>
+                </Form.Group>
+
                     <Button variant="primary" type="submit" className="mt-2 btn-block">Sign-In</Button>
                     
                 </Form.Group>

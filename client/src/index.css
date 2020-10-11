@@ -53,3 +53,7 @@ header a:hover {
   left: 45vw;
   color: rgb(0, 0, 0);
 }
+
+.MuiSvgIcon-root{
+  cursor: pointer;
+}

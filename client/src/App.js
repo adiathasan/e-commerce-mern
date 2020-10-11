@@ -1,16 +1,18 @@
-import React from "react";
-import Footer from "./components/Footer.jsx";
-import Header from "./components/Header.jsx";
-import { Container } from "react-bootstrap";
-import "./index.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import HomeScreen from "./screens/HomeScreen.jsx";
-import ProductScreen from "./screens/ProductScreen.jsx";
-import CartScreen from "./screens/CartScreen.jsx";
+import React from 'react';
+import Footer from './components/Footer.jsx';
+import Header from './components/Header.jsx';
+import { Container } from 'react-bootstrap';
+import './index.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import HomeScreen from './screens/HomeScreen.jsx';
+import ProductScreen from './screens/ProductScreen.jsx';
+import CartScreen from './screens/CartScreen.jsx';
 import LoginScreen from './screens/LoginScreen.jsx';
+import RegisterScreen from './screens/RegisterScreen.jsx';
+import ProfileScreen from './screens/ProfileScreen.jsx';
 
 const App = () => {
-  return (
+	return (
 		<>
 			<Router>
 				<Header />
@@ -21,6 +23,8 @@ const App = () => {
 							<Route path="/product/:productId" component={ProductScreen} />
 							<Route path="/cart/:productId?" component={CartScreen} />
 							<Route path="/login" component={LoginScreen} />
+							<Route path="/signup" component={RegisterScreen} />
+							<Route path="/profile" component={ProfileScreen} />
 						</Switch>
 					</Container>
 				</main>

@@ -10,6 +10,7 @@ import { userLogoutAction } from "../actions/userActions";
 const Header = () => {
   const { cartProducts } = useSelector((state) => state.cartTotalItem);
   const { user } = useSelector((state) => state.userInfo);
+  const { userProfile } = useSelector((state) => state.userUpdate);
   const dispatch = useDispatch()
 
   const handleLogout = e => {
@@ -46,7 +47,7 @@ const Header = () => {
                 <AccountCircleIcon style={{ transform: "scale(.75)" }} />
                 sign-In
               </NavLink>) : (
-                 <NavDropdown title={user.name} id="username">
+                 <NavDropdown title={userProfile ? userProfile.name : user.name} id="username">
                     <NavDropdown.Item>
                    <Link to="/profile" style={{color: 'black'}}>
                       profile
@@ -66,7 +67,3 @@ const Header = () => {
 };
 
 export default Header;
-
-// "@testing-library/jest-dom": "^4.2.4",
-// "@testing-library/react": "^9.3.2",
-// "@testing-library/user-event": "^7.1.2",
