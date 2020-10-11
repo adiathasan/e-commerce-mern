@@ -1,4 +1,4 @@
-import * as types from "../VARIABLES";
+import * as types from "../CONSTANTS";
 import { instance } from "../axios";
 
 const getProductsAction = () => async (dispatch) => {

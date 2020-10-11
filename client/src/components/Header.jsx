@@ -1,13 +1,21 @@
 import React from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { getTotalCartItem } from "../reducers/cartReducers";
+import { userLogoutAction } from "../actions/userActions";
 
 const Header = () => {
   const { cartProducts } = useSelector((state) => state.cartTotalItem);
+  const { user } = useSelector((state) => state.userInfo);
+  const dispatch = useDispatch()
+
+  const handleLogout = e => {
+    dispatch(userLogoutAction())
+  }
+
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="sm" collapseOnSelect>
@@ -30,13 +38,25 @@ const Header = () => {
                 <ShoppingCartOutlinedIcon style={{ transform: "scale(.75)" }} />
                 cart
               </NavLink>
-              <NavLink
+              {
+                !user ? ( <NavLink
                 to="/login"
                 className="d-flex align-items-center justify-content-center"
               >
                 <AccountCircleIcon style={{ transform: "scale(.75)" }} />
                 sign-In
-              </NavLink>
+              </NavLink>) : (
+                 <NavDropdown title={user.name} id="username">
+                    <NavDropdown.Item>
+                   <Link to="/profile" style={{color: 'black'}}>
+                      profile
+                   </Link>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item onClick={handleLogout}>Log-Out</NavDropdown.Item>
+                 </NavDropdown>
+              )
+              }
+             
             </Nav>
           </Navbar.Collapse>
         </Container>

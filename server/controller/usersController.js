@@ -24,7 +24,6 @@ const authUserController = async (req, res) => {
 // @route GET/api/users/profile
 // @access private to auth user
 const getUserProfileController = async (req, res) => {
-  console.log(req.user);
   const user = await User.findById(req.user._conditions._id)
   if(user){
     res.json({
@@ -42,7 +41,7 @@ const getUserProfileController = async (req, res) => {
 
 // @desc register user
 // @route POST/api/users
-// @access public to all 
+// @access public to all
 const userRegisterController = async (req, res) => {
   const { email, password, name,  } = req.body;
   const userExists = await User.findOne({ email });

@@ -1,4 +1,4 @@
-import * as types from "../VARIABLES";
+import * as types from "../CONSTANTS";
 
 const addToCartAction = (product, amount) => (dispatch, getState) => {
   dispatch({
