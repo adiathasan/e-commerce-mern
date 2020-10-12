@@ -7,9 +7,8 @@ import {
   Card,
   Button,
   ListGroupItem,
-  Form,
 } from "react-bootstrap";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Rating from "../components/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleProduct } from "../actions/productActions";
@@ -18,10 +17,8 @@ import Message from "../components/Message";
 import { addToCartAction } from "../actions/cartActions";
 
 const ProductScreen = () => {
-  const [quantity, setQuantity] = useState(1);
   const [isDuplicate, setIsDuplicate] = useState(false);
   const { productId } = useParams();
-  const history = useHistory();
   const dispatch = useDispatch();
   const { product, message, isLoading } = useSelector(
     (state) => state.productDetail
@@ -40,14 +37,14 @@ const ProductScreen = () => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCartAction(product, parseInt(quantity)));
+    dispatch(addToCartAction(product, 1));
     setIsDuplicate(true);
   };
 
   useEffect(() => {
     dispatch(getSingleProduct(productId));
     checkDuplicateProduct(cartProducts, productId);
-  }, [dispatch, productId]);
+  }, [dispatch, productId, cartProducts]);
 
   return (
     <div className="productScreen">

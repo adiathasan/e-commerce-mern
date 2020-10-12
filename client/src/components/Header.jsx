@@ -2,12 +2,13 @@ import React from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getTotalCartItem } from "../reducers/cartReducers";
 import { userLogoutAction } from "../actions/userActions";
 
 const Header = () => {
+  const history = useHistory()
   const { cartProducts } = useSelector((state) => state.cartTotalItem);
   const { user } = useSelector((state) => state.userInfo);
   const { userProfile } = useSelector((state) => state.userUpdate);
@@ -48,10 +49,10 @@ const Header = () => {
                 sign-In
               </NavLink>) : (
                  <NavDropdown title={userProfile ? userProfile.name : user.name} id="username">
-                    <NavDropdown.Item>
-                   <Link to="/profile" style={{color: 'black'}}>
+                    <NavDropdown.Item onClick={() => {
+                      user ? history.push('/profile') : history.push('/login?redirect=profile')
+                    }}>
                       profile
-                   </Link>
                     </NavDropdown.Item>
                     <NavDropdown.Item onClick={handleLogout}>Log-Out</NavDropdown.Item>
                  </NavDropdown>

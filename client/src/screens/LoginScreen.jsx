@@ -17,12 +17,14 @@ const LoginScreen = () => {
     const {isLoading, message, user} = useSelector(state => state.userInfo)
 	const handleShowPassword = () => {
 		setShowPassword(!showPassword)
-	} 
+    } 
+        console.log();
+    const redirect = history.location.search !== '' ? history.location.search.split("=")[1] : '/'
     useEffect(()=> {
         if(user){
-            history.push('/')
+            history.push(redirect)
         }
-    }, [user])
+    }, [user, history, redirect])
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(userLoginAction(email, password))

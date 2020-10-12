@@ -15,12 +15,25 @@ import Message from "../components/Message";
 import { Link } from "react-router-dom";
 import { addToCartAction, removeFromCartAction } from "../actions/cartActions";
 import { getTotalCartItem, getTotalCartPrice } from "../reducers/cartReducers";
-const CartScreen = () => {
+
+
+const CartScreen = ({history}) => {
   const { cartProducts } = useSelector((state) => state.cartTotalItem);
+  const { user } = useSelector((state) => state.userInfo);
   const dispatch = useDispatch();
   const handleCartQty = (item, qty) => {
     dispatch(addToCartAction(item, qty));
   };
+
+  const handleCheckoutBtn = () => {
+    if(!user){
+      history.push('/login?redirect=checkout')
+    }else{
+      history.push('/shipping')
+    }
+} 
+
+
   const handleRemoveItem = (product) => {
     dispatch(removeFromCartAction(product));
   };
@@ -99,6 +112,7 @@ const CartScreen = () => {
           <ListGroupItem>
             <Button
               className="btn-block"
+              onClick={handleCheckoutBtn}
               disabled={getTotalCartItem(cartProducts) === 0}
             >
               Procced To Checkout

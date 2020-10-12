@@ -7,7 +7,7 @@ import {
 } from "react-bootstrap";
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getUserDetailsAction, updateUserDetailsAction, userLoginAction } from '../actions/userActions';
+import { getUserDetailsAction, updateUserDetailsAction } from '../actions/userActions';
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
@@ -46,7 +46,7 @@ const ProfileScreen = () => {
 
 	useEffect(() => {
 		if (!user) {
-			history.push('/login');
+			history.push('/login?redirect=profile');
 		}else{
             if(!userProfile){
                 dispatch(getUserDetailsAction('profile'))
