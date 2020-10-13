@@ -7,7 +7,7 @@ import CheckoutSteps from '../components/CheckoutSteps';
 
 const PaymentMethodScreen = () => {
 	const { shippingAddress } = useSelector((state) => state.shippingProccess);
-	const [paymentMethod, setpaymentMethod] = useState('paypal');
+	const [paymentMethod, setpaymentMethod] = useState('');
 	const { user } = useSelector((state) => state.userInfo);
 	const history = useHistory();
 	const dispatch = useDispatch();
@@ -40,7 +40,16 @@ const PaymentMethodScreen = () => {
 									label="Paypal or Credit Card"
 									id="paypal"
 									name="paymentMethod"
-									value={paymentMethod}
+									value={'Pay Pal'}
+									onChange={(e) =>
+										setpaymentMethod(e.target.value)
+									}></Form.Check>
+								<Form.Check
+									type="radio"
+									label="Pay on Delivery"
+									id="payOnDelivery"
+									name="paymentMethod"
+									value={'Pay on Delivery'}
 									onChange={(e) =>
 										setpaymentMethod(e.target.value)
 									}></Form.Check>

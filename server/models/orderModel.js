@@ -61,7 +61,8 @@ const orderSchema = new Schema(
 		},
 		paidAt: {
 			type: Date,
-			required: false,
+			required: true,
+			default: Date.now(),
 		},
 		isDelivered: {
 			type: Boolean,
@@ -70,7 +71,8 @@ const orderSchema = new Schema(
 		},
 		deliveredAt: {
 			type: Date,
-			required: false,
+			required: true,
+			default: Date.now(),
 		},
 	},
 	{ timestamps: true }

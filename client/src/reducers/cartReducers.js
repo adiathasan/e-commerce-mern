@@ -31,7 +31,11 @@ const cartTotalItemReducer = (
 					),
 				],
 			};
-
+		case types.CLEAR_CART:
+			localStorage.removeItem('cart');
+			return {
+				cartProducts: [],
+			};
 		default:
 			return state;
 	}

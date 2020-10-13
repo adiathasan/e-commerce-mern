@@ -24,7 +24,7 @@ const addOrderItems = async (req, res) => {
 			vat,
 			shippingPrice,
 			totalPrice,
-			user: req.user._conditions._id,
+			user: req.user._id,
 		});
 
 		const createdOrder = await order.save();
@@ -32,4 +32,52 @@ const addOrderItems = async (req, res) => {
 	}
 };
 
-export { addOrderItems };
+// @desc get an order by id
+// @route GET/api/orders/:orderId
+// @access private
+const getOrderedItems = async (req, res) => {
+	const order = await Order.findById(req.params.orderId).populate(
+		'user',
+		'name email'
+	);
+	if (order) {
+		res.status(200).json(order);
+	} else {
+		res.status(404);
+		throw new Error('Order not found');
+	}
+};
+
+// @desc update order to paid
+// @route PUT/api/orders/:orderId/pay
+// @access private
+const updateOrderToPaid = async (req, res) => {
+	const order = await Order.findById(req.params.orderId);
+
+	if (order) {
+		order.isPaid = true;
+		order.paidAt = Date.now();
+		order.paymentResult = req.body;
+		const updatedOrder = await order.save();
+		res.json(updatedOrder);
+	} else {
+		res.status(404);
+		throw new Error('Order not found');
+	}
+};
+
+// @desc get orders to logged in user
+// @route GET/api/orders/myorders
+// @access private
+const getMyOrders = async (req, res) => {
+	const order = await Order.find({ user: req.user._id });
+
+	if (order) {
+		res.json(order);
+	} else {
+		res.status(404);
+		throw new Error('Orders not found');
+	}
+};
+
+export { addOrderItems, getOrderedItems, updateOrderToPaid, getMyOrders };

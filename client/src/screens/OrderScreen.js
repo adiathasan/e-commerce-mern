@@ -15,13 +15,21 @@ import Loader from '../components/Loader.jsx';
 import { getOrderDetailsAction } from '../actions/orderActions.js';
 import { getTotalCartPrice } from '../reducers/cartReducers.js';
 
-const OrderScreen = () => {
+const OrderScreen = ({ history }) => {
 	const { isLoading, order, message } = useSelector(
 		(state) => state.orderDetails
 	);
 
+	const { user } = useSelector((state) => state.userInfo);
+
 	const { orderId } = useParams();
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (!user) {
+			history.push('/login');
+		}
+	}, [user, history]);
 
 	useEffect(() => {
 		dispatch(getOrderDetailsAction(orderId));
@@ -30,11 +38,9 @@ const OrderScreen = () => {
 	return (
 		<>
 			{isLoading ? (
-				<Loader /> ? (
-					message
-				) : (
-					<Message variant="danger">{message}</Message>
-				)
+				<Loader />
+			) : message ? (
+				<Message variant="danger">{message}</Message>
 			) : (
 				<>
 					<Row>
@@ -137,11 +143,15 @@ const OrderScreen = () => {
 										<Col>Total:</Col>
 										<Col>${order.totalPrice}</Col>
 									</ListGroupItem>
-									{!order.isPaid && (
-										<ListGroupItem>
-											<PayPalButton amount={order.totalPrice} onSuccess={''} />
-										</ListGroupItem>
-									)}
+									{!order.isPaid ||
+										(order.paymentMethod === 'Pay on Delivery' && (
+											<ListGroupItem>
+												<PayPalButton
+													amount={order.totalPrice}
+													onSuccess={''}
+												/>
+											</ListGroupItem>
+										))}
 								</ListGroup>
 							</Card>
 						</Col>

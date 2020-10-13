@@ -30,8 +30,8 @@ const ProfileScreen = () => {
 	const { isLoading, message, userProfile } = useSelector((state) => state.userDetails);
 	const { errMessage, orders } = useSelector((state) => state.getMyOrders);
     const {  user } = useSelector((state) => state.userInfo);
-    const {  success } = useSelector((state) => state.userUpdate);
-
+	const {  success } = useSelector((state) => state.userUpdate);
+	
     const handleShowPassword = () => {
 		setShowPassword(!showPassword)
 	} 

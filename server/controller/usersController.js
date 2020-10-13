@@ -24,7 +24,7 @@ const authUserController = async (req, res) => {
 // @route GET/api/users/profile
 // @access private to auth user
 const getUserProfileController = async (req, res) => {
-	const user = await User.findById(req.user._conditions._id);
+	const user = await User.findById(req.user._id);
 	if (user) {
 		res.json({
 			_id: user._id,
@@ -41,8 +41,7 @@ const getUserProfileController = async (req, res) => {
 // @route PUT/api/users/profile
 // @access private to auth user
 const updateUserProfileController = async (req, res) => {
-	console.log(req.user._conditions._id);
-	const user = await User.findById(req.user._conditions._id);
+	const user = await User.findById(req.user._id);
 	console.log(req.body);
 	if (user) {
 		user.name = req.body.name || user.name;
@@ -98,9 +97,18 @@ const userRegisterController = async (req, res) => {
 	}
 };
 
+// @desc get all users
+// @route GET/api/users
+// @access private, admin only
+const getAllUsersController = async (req, res) => {
+	const users = await User.find({});
+	res.json(users);
+};
+
 export {
 	authUserController,
 	getUserProfileController,
 	userRegisterController,
 	updateUserProfileController,
+	getAllUsersController,
 };

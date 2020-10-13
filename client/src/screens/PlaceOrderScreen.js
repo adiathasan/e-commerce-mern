@@ -11,10 +11,10 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import Message from '../components/Message.jsx';
-import Loader from '../components/Loader.jsx';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { getTotalCartPrice } from '../reducers/cartReducers.js';
 import { createOrderAction } from '../actions/orderActions.js';
+import { CLEAR_CART } from '../CONSTANTS.js';
 
 const PlaceOrderScreen = () => {
 	const { cartProducts } = useSelector((state) => state.cartTotalItem);
@@ -23,6 +23,7 @@ const PlaceOrderScreen = () => {
 		paymentMethod,
 	} = useSelector((state) => state.shippingProccess);
 	const { order, message, success } = useSelector((state) => state.orderCreate);
+	const { user } = useSelector((state) => state.userInfo);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const VATCost = () => {
@@ -48,10 +49,19 @@ const PlaceOrderScreen = () => {
 	};
 
 	useEffect(() => {
+		if (!user) {
+			history.push('/login?redirect=place-order');
+		}
+	}, [user, history]);
+
+	useEffect(() => {
 		if (success) {
+			dispatch({
+				type: CLEAR_CART,
+			});
 			history.push('/order/' + order._id);
 		}
-	}, [history, success, order]);
+	}, [history, success, order, dispatch]);
 
 	return (
 		<>
