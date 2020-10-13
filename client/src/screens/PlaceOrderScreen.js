@@ -22,9 +22,7 @@ const PlaceOrderScreen = () => {
 		shippingAddress: { address, city, postalCode, country },
 		paymentMethod,
 	} = useSelector((state) => state.shippingProccess);
-	const { isLoading, order, message, success } = useSelector(
-		(state) => state.orderCreate
-	);
+	const { order, message, success } = useSelector((state) => state.orderCreate);
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const VATCost = () => {
@@ -57,104 +55,100 @@ const PlaceOrderScreen = () => {
 
 	return (
 		<>
-			{isLoading ? (
-				<Loader />
-			) : (
-				<>
-					<CheckoutSteps step1 step2 step3 step4 />
-					<Row>
-						<Col md={8}>
+			<>
+				<CheckoutSteps step1 step2 step3 step4 />
+				<Row>
+					<Col md={8}>
+						<ListGroup variant="flush">
+							<ListGroupItem>
+								<h4>Shipping</h4>
+								<p>
+									<strong style={{ fontWeight: '600' }}>Address: </strong>
+									{address}, {city}, {postalCode}, {country}
+								</p>
+							</ListGroupItem>
+							<ListGroupItem>
+								<h4>Payment</h4>
+								<p>
+									<strong style={{ fontWeight: '600' }}>Method: </strong>
+									{paymentMethod}
+								</p>
+							</ListGroupItem>
+							<ListGroupItem>
+								<h4>Order Items</h4>
+								{cartProducts.length === 0 ? (
+									<Message>Your cart is empty</Message>
+								) : (
+									<ListGroup variant="flush">
+										{cartProducts.map((item) => {
+											return (
+												<ListGroupItem key={item.cartProduct._id}>
+													<Row>
+														<Col md={3}>
+															<Image
+																src={item.cartProduct.image}
+																fluid
+																alt={item.cartProduct.name}
+																rounded
+															/>
+														</Col>
+														<Col>
+															<Link to={'/product/' + item.cartProduct._id}>
+																{item.cartProduct.name}
+															</Link>
+														</Col>
+														<Col md={4}>
+															{item.amount} x ${item.cartProduct.price} = $
+															{item.amount * item.cartProduct.price}
+														</Col>
+													</Row>
+												</ListGroupItem>
+											);
+										})}
+									</ListGroup>
+								)}
+							</ListGroupItem>
+						</ListGroup>
+					</Col>
+					<Col md={4}>
+						<Card>
 							<ListGroup variant="flush">
 								<ListGroupItem>
-									<h4>Shipping</h4>
-									<p>
-										<strong style={{ fontWeight: '600' }}>Address: </strong>
-										{address}, {city}, {postalCode}, {country}
-									</p>
+									<h4>Order Summery</h4>
 								</ListGroupItem>
 								<ListGroupItem>
-									<h4>Payment</h4>
-									<p>
-										<strong style={{ fontWeight: '600' }}>Method: </strong>
-										{paymentMethod}
-									</p>
+									<Row>
+										<Col>Items:</Col>
+										<Col>${getTotalCartPrice(cartProducts)}</Col>
+									</Row>
+									<Row>
+										<Col>Shipping:</Col>
+										<Col>${shippingCost()}</Col>
+									</Row>
+									<Row>
+										<Col>VAT:</Col>
+										<Col>${VATCost()}</Col>
+									</Row>
+									<Row>
+										<Col>Total:</Col>
+										<Col>${TotalPrice()}</Col>
+									</Row>
 								</ListGroupItem>
 								<ListGroupItem>
-									<h4>Order Items</h4>
-									{cartProducts.length === 0 ? (
-										<Message>Your cart is empty</Message>
-									) : (
-										<ListGroup variant="flush">
-											{cartProducts.map((item) => {
-												return (
-													<ListGroupItem key={item.cartProduct._id}>
-														<Row>
-															<Col md={3}>
-																<Image
-																	src={item.cartProduct.image}
-																	fluid
-																	alt={item.cartProduct.name}
-																	rounded
-																/>
-															</Col>
-															<Col>
-																<Link to={'/product/' + item.cartProduct._id}>
-																	{item.cartProduct.name}
-																</Link>
-															</Col>
-															<Col md={4}>
-																{item.amount} x ${item.cartProduct.price} = $
-																{item.amount * item.cartProduct.price}
-															</Col>
-														</Row>
-													</ListGroupItem>
-												);
-											})}
-										</ListGroup>
-									)}
+									{message && <Message variant="danger">{message}</Message>}
+									<Button
+										onClick={handlePlaceOrder}
+										variant="primary"
+										className="btn-block"
+										disabled={cartProducts.length === 0}>
+										Place Order
+									</Button>
 								</ListGroupItem>
 							</ListGroup>
-						</Col>
-						<Col md={4}>
-							<Card>
-								<ListGroup variant="flush">
-									<ListGroupItem>
-										<h4>Order Summery</h4>
-									</ListGroupItem>
-									<ListGroupItem>
-										<Row>
-											<Col>Items:</Col>
-											<Col>${getTotalCartPrice(cartProducts)}</Col>
-										</Row>
-										<Row>
-											<Col>Shipping:</Col>
-											<Col>${shippingCost()}</Col>
-										</Row>
-										<Row>
-											<Col>VAT:</Col>
-											<Col>${VATCost()}</Col>
-										</Row>
-										<Row>
-											<Col>Total:</Col>
-											<Col>${TotalPrice()}</Col>
-										</Row>
-									</ListGroupItem>
-									<ListGroupItem>
-										{message && <Message variant="danger">{message}</Message>}
-										<Button
-											onClick={handlePlaceOrder}
-											variant="primary"
-											className="btn-block"
-											disabled={cartProducts.length === 0}>
-											Place Order
-										</Button>
-									</ListGroupItem>
-								</ListGroup>
-							</Card>
-						</Col>
-					</Row>
-				</>
-			)}
+						</Card>
+					</Col>
+				</Row>
+			</>
 		</>
 	);
 };

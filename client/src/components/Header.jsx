@@ -6,6 +6,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getTotalCartItem } from "../reducers/cartReducers";
 import { userLogoutAction } from "../actions/userActions";
+import { MY_ORDER_RESET } from '../CONSTANTS';
 
 const Header = () => {
   const history = useHistory()
@@ -15,6 +16,9 @@ const Header = () => {
   const dispatch = useDispatch()
 
   const handleLogout = e => {
+    dispatch({
+      type: MY_ORDER_RESET
+    })
     dispatch(userLogoutAction())
   }
 

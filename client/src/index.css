@@ -1,59 +1,63 @@
 main {
-  min-height: 80vh;
+	min-height: 80vh;
+}
+
+body {
+	overflow-x: hidden;
 }
 
 header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  box-shadow: 0 2px 8px 0px #00000086;
+	position: sticky;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	box-shadow: 0 2px 8px 0px #00000086;
 }
 
 .favicon {
-  height: 30px;
+	height: 30px;
 }
 
 .rating {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-left: -0.35rem;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	margin-left: -0.35rem;
 }
 
 .rating .MuiSvgIcon-root {
-  color: orange;
-  transform: scale(0.9);
+	color: orange;
+	transform: scale(0.9);
 }
 
 header a {
-  color: lightgray;
-  transition: 0.15s ease-in-out;
+	color: lightgray;
+	transition: 0.15s ease-in-out;
 }
 
 header a > sup {
-  transform: scale(1.4);
-  color: rgb(255, 123, 0);
+	transform: scale(1.4);
+	color: rgb(255, 123, 0);
 }
 
 header a:hover {
-  color: white;
-  text-decoration-line: none;
+	color: white;
+	text-decoration-line: none;
 }
 
 .active {
-  color: #00a2ff;
+	color: #00a2ff;
 }
 
 .spin {
-  position: absolute;
-  height: 100px;
-  width: 100px;
-  top: 45vh;
-  left: 45vw;
-  color: rgb(0, 0, 0);
+	position: absolute;
+	height: 100px;
+	width: 100px;
+	top: 45vh;
+	left: 45vw;
+	color: rgb(0, 0, 0);
 }
 
-.MuiSvgIcon-root{
-  cursor: pointer;
+.MuiSvgIcon-root {
+	cursor: pointer;
 }

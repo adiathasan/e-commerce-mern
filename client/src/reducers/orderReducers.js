@@ -1,10 +1,31 @@
 import * as types from '../CONSTANTS';
 
-const orderReducers = (state = { isLoading: false, order: null }, action) => {
+const orderReducers = (
+	state = {
+		isLoading: true,
+		order: {
+			shippingAddress: {
+				address: '',
+				city: '',
+				country: '',
+				postalCode: '',
+			},
+			shippingPrice: '',
+			totalPrice: '',
+			_id: '',
+			orderedItems: [],
+			user: '',
+			vat: '',
+			paymentMethod: '',
+		},
+		message: '',
+	},
+	action
+) => {
 	switch (action.type) {
 		case types.ORDER_CREATE_REQUEST:
 			return {
-				isLoading: true,
+				...state,
 			};
 		case types.ORDER_CREATE_SUCCESS:
 			return {
@@ -22,4 +43,81 @@ const orderReducers = (state = { isLoading: false, order: null }, action) => {
 	}
 };
 
-export { orderReducers };
+const orderDetailsReducer = (
+	state = { order: { shippingAddress: null }, isLoading: true },
+	action
+) => {
+	switch (action.type) {
+		case types.ORDER_DETAILS_REQUEST:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case types.ORDER_DETAILS_SUCCESS:
+			return {
+				isLoading: false,
+				order: action.payload,
+			};
+		case types.ORDER_DETAILS_FAIL:
+			return {
+				isLoading: false,
+				message: action.message,
+			};
+		default:
+			return state;
+	}
+};
+
+const orderPayReducer = (state = {}, action) => {
+	switch (action.type) {
+		case types.ORDER_PAY_REQUEST:
+			return {
+				isLoading: true,
+			};
+		case types.ORDER_PAY_SUCCESS:
+			return {
+				isLoading: false,
+				success: true,
+			};
+		case types.ORDER_PAY_FAIL:
+			return {
+				isLoading: false,
+				message: action.message,
+			};
+		case types.ORDER_PAY_RESET:
+			return {};
+		default:
+			return state;
+	}
+};
+
+const getMyOrderListReducer = (state = { orders: [] }, action) => {
+	switch (action.type) {
+		case types.MY_ORDER_REQUEST:
+			return {
+				...state,
+				loading: true,
+			};
+		case types.MY_ORDER_SUCCESS:
+			return {
+				loading: false,
+				orders: [...action.payload],
+			};
+		case types.MY_ORDER_FAIL:
+			return {
+				loading: false,
+				errMessage: action.message,
+			};
+		case types.MY_ORDER_RESET:
+			return { orders: [] };
+		default:
+			return state;
+	}
+};
+
+export {
+	orderReducers,
+	orderDetailsReducer,
+	orderPayReducer,
+	getMyOrderListReducer,
+};
