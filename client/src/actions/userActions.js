@@ -115,7 +115,7 @@ const updateUserDetailsAction = (user) => async (dispatch, getState) => {
 				Authorization: `Bearer ${token}`,
 			},
 		};
-		console.log(user);
+
 		const { data } = await instance.put('/users/profile', user, config);
 
 		dispatch({
@@ -134,10 +134,110 @@ const updateUserDetailsAction = (user) => async (dispatch, getState) => {
 	}
 };
 
+const getUsersListAction = () => async (dispatch, getState) => {
+	const { token } = getState().userInfo.user;
+	try {
+		dispatch({
+			type: types.USERS_LIST_REQUEST,
+		});
+		const config = {
+			headers: {
+				'Content-type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const { data } = await instance.get('/users', config);
+
+		dispatch({
+			type: types.USERS_LIST_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.USERS_LIST_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+const deletetUserAction = (userId) => async (dispatch, getState) => {
+	const { token } = getState().userInfo.user;
+	try {
+		dispatch({
+			type: types.DELETE_USER_REQUEST,
+		});
+		const config = {
+			headers: {
+				'Content-type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const { data } = await instance.delete('/users/' + userId, config);
+
+		dispatch({
+			type: types.DELETE_USER_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.DELETE_USER_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+const updateUserDetailsFromAdminAction = (user, userId) => async (
+	dispatch,
+	getState
+) => {
+	const { token } = getState().userInfo.user;
+	try {
+		dispatch({
+			type: types.USER_UPDATE_REQUEST,
+		});
+		const config = {
+			headers: {
+				'Content-type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const { data } = await instance.put('/users/' + userId, user, config);
+
+		dispatch({
+			type: types.USER_UPDATE_SUCCESS,
+			payload: data,
+		});
+		dispatch({
+			type: types.USER_DETAILS_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.USER_UPDATE_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
 export {
 	userLoginAction,
 	userLogoutAction,
 	userRegisterAction,
 	getUserDetailsAction,
 	updateUserDetailsAction,
+	getUsersListAction,
+	deletetUserAction,
+	updateUserDetailsFromAdminAction,
 };

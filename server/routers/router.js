@@ -11,10 +11,13 @@ import {
 } from '../controller/productsControllers.js';
 import {
 	authUserController,
+	deleteUserController,
 	getAllUsersController,
 	getUserProfileController,
 	updateUserProfileController,
 	userRegisterController,
+	getUserById,
+	updateUserById,
 } from '../controller/usersController.js';
 
 import { isAdmin, protect } from '../middleware/authMiddleware.js';
@@ -39,6 +42,12 @@ router
 	.route('/users/profile')
 	.get(protect, getUserProfileController)
 	.put(protect, updateUserProfileController);
+
+router
+	.route('/users/:userId')
+	.delete(protect, isAdmin, deleteUserController)
+	.get(protect, isAdmin, getUserById)
+	.put(protect, isAdmin, updateUserById);
 
 // order route
 

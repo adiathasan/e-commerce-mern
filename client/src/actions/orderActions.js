@@ -112,7 +112,7 @@ const getMyOrderListAction = () => async (dispatch, getState) => {
 		};
 
 		const { data } = await instance.get('/orders/myorders', config);
-
+		console.log(data);
 		dispatch({
 			type: types.MY_ORDER_SUCCESS,
 			payload: data,
@@ -128,9 +128,40 @@ const getMyOrderListAction = () => async (dispatch, getState) => {
 	}
 };
 
+const getOrdersAdminAction = () => async (dispatch, getState) => {
+	const { token } = getState().userInfo.user;
+	try {
+		dispatch({
+			type: types.ORDERS_ADMIN_REQUEST,
+		});
+		const config = {
+			headers: {
+				'Content-type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const { data } = await instance.get('/orders', config);
+
+		dispatch({
+			type: types.ORDERS_ADMIN_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.ORDERS_ADMIN_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
 export {
 	createOrderAction,
 	getOrderDetailsAction,
 	payOrderAction,
 	getMyOrderListAction,
+	getOrdersAdminAction,
 };

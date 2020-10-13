@@ -42,17 +42,16 @@ const getUserProfileController = async (req, res) => {
 // @access private to auth user
 const updateUserProfileController = async (req, res) => {
 	const user = await User.findById(req.user._id);
-	console.log(req.body);
+
 	if (user) {
 		user.name = req.body.name || user.name;
 		user.email = req.body.email || user.email;
 		if (req.body.password) {
-			console.log(req.body.password);
 			user.password = req.body.password;
 		}
 
 		const updatedUser = await user.save();
-		console.log(updatedUser);
+
 		res.json({
 			_id: updatedUser._id,
 			name: updatedUser.name,
@@ -105,10 +104,65 @@ const getAllUsersController = async (req, res) => {
 	res.json(users);
 };
 
+// @desc delete a user
+// @route DELETE/api/users/:userId
+// @access private, admin only
+const deleteUserController = async (req, res) => {
+	const user = await User.findById(req.params.userId);
+	if (user) {
+		await user.remove();
+		res.json({ message: 'user deleted' });
+	} else {
+		res.status(400);
+		throw new Error("couldn't delete the user");
+	}
+};
+
+// @desc get a user
+// @route GET/api/users/:userId
+// @access private, admin only
+const getUserById = async (req, res) => {
+	const user = await User.findById(req.params.userId).select('-password');
+	if (user) {
+		res.json(user);
+	} else {
+		res.status(404);
+		throw new Error("couldn't get the user");
+	}
+};
+
+// @desc update users profile
+// @route PUT/api/users:userId
+// @access private to auth user
+const updateUserById = async (req, res) => {
+	const user = await User.findById(req.params.userId);
+
+	if (user) {
+		user.name = req.body.name || user.name;
+		user.email = req.body.email || user.email;
+		user.isAdmin = req.body.isAdmin;
+
+		const updatedUser = await user.save();
+
+		res.json({
+			_id: updatedUser._id,
+			name: updatedUser.name,
+			email: updatedUser.email,
+			isAdmin: updatedUser.isAdmin,
+			password: updatedUser.password,
+		});
+	} else {
+		res.status(404).send({ message: 'User not found' });
+	}
+};
+
 export {
 	authUserController,
 	getUserProfileController,
 	userRegisterController,
 	updateUserProfileController,
 	getAllUsersController,
+	deleteUserController,
+	getUserById,
+	updateUserById,
 };

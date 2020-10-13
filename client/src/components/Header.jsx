@@ -1,12 +1,13 @@
 import React from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { LinkContainer  } from "react-router-bootstrap";
 import ShoppingCartOutlinedIcon from "@material-ui/icons/ShoppingCartOutlined";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { NavLink, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getTotalCartItem } from "../reducers/cartReducers";
 import { userLogoutAction } from "../actions/userActions";
-import { MY_ORDER_RESET } from '../CONSTANTS';
+import { MY_ORDER_RESET, USERS_LIST_RESET } from '../CONSTANTS';
 
 const Header = () => {
   const history = useHistory()
@@ -16,6 +17,9 @@ const Header = () => {
   const dispatch = useDispatch()
 
   const handleLogout = e => {
+    dispatch({
+      type: USERS_LIST_RESET
+    })
     dispatch({
       type: MY_ORDER_RESET
     })
@@ -62,7 +66,21 @@ const Header = () => {
                  </NavDropdown>
               )
               }
-             
+             {
+               user && user.isAdmin && (
+                 <NavDropdown  title="Admin" id="admin-menu">
+                   <LinkContainer to="/admin/users">
+                      <NavDropdown.Item>Users</NavDropdown.Item>
+                   </LinkContainer>
+                   <LinkContainer to="/admin/orders">
+                      <NavDropdown.Item>Orders</NavDropdown.Item>
+                   </LinkContainer>
+                   <LinkContainer to="/admin/products">
+                      <NavDropdown.Item>Products</NavDropdown.Item>
+                   </LinkContainer>
+                 </NavDropdown>
+               )
+             }
             </Nav>
           </Navbar.Collapse>
         </Container>

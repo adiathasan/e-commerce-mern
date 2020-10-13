@@ -50,13 +50,13 @@ const orderDetailsReducer = (
 	switch (action.type) {
 		case types.ORDER_DETAILS_REQUEST:
 			return {
-				...state,
 				isLoading: true,
 			};
 		case types.ORDER_DETAILS_SUCCESS:
+			console.log(action.payload);
 			return {
 				isLoading: false,
-				order: action.payload,
+				order: { ...action.payload },
 			};
 		case types.ORDER_DETAILS_FAIL:
 			return {
@@ -101,7 +101,7 @@ const getMyOrderListReducer = (state = { orders: [] }, action) => {
 		case types.MY_ORDER_SUCCESS:
 			return {
 				loading: false,
-				orders: [...action.payload],
+				orders: action.payload,
 			};
 		case types.MY_ORDER_FAIL:
 			return {
@@ -115,9 +115,32 @@ const getMyOrderListReducer = (state = { orders: [] }, action) => {
 	}
 };
 
+const getOrdersAdminReducer = (state = { orders: [] }, action) => {
+	switch (action.type) {
+		case types.ORDERS_ADMIN_REQUEST:
+			return {
+				...state,
+				loading: true,
+			};
+		case types.ORDERS_ADMIN_SUCCESS:
+			return {
+				loading: false,
+				orders: { ...action.payload },
+			};
+		case types.ORDERS_ADMIN_FAIL:
+			return {
+				loading: false,
+				errMessage: action.message,
+			};
+		default:
+			return state;
+	}
+};
+
 export {
 	orderReducers,
 	orderDetailsReducer,
 	orderPayReducer,
 	getMyOrderListReducer,
+	getOrdersAdminReducer,
 };
