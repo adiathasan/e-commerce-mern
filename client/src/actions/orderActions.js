@@ -97,6 +97,39 @@ const payOrderAction = (orderId, paymentResult) => async (
 		});
 	}
 };
+const deliverOrderAction = (orderId) => async (dispatch, getState) => {
+	const { token } = getState().userInfo.user;
+	try {
+		dispatch({
+			type: types.ORDER_DELIVER_REQUEST,
+		});
+		const config = {
+			headers: {
+				'Content-type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const { data } = await instance.put(
+			'/orders/' + orderId + '/deliver',
+			{},
+			config
+		);
+
+		dispatch({
+			type: types.ORDER_DELIVER_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.ORDER_DELIVER_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
 
 const getMyOrderListAction = () => async (dispatch, getState) => {
 	const { token } = getState().userInfo.user;
@@ -112,7 +145,7 @@ const getMyOrderListAction = () => async (dispatch, getState) => {
 		};
 
 		const { data } = await instance.get('/orders/myorders', config);
-		console.log(data);
+
 		dispatch({
 			type: types.MY_ORDER_SUCCESS,
 			payload: data,
@@ -164,4 +197,5 @@ export {
 	payOrderAction,
 	getMyOrderListAction,
 	getOrdersAdminAction,
+	deliverOrderAction,
 };

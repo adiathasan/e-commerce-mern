@@ -51,11 +51,11 @@ const OrderScreen = ({ history }) => {
 									<h4>Shipping</h4>
 									<p>
 										<strong>Name: </strong>
-										{order.user.name}
+										{order?.user?.name}
 									</p>
 									<p>
-										<a href={`mailto:${order.user.email}`}>
-											{order.user.email}
+										<a href={`mailto:${order?.user?.email}`}>
+											{order?.user?.email}
 										</a>
 									</p>
 									<p>

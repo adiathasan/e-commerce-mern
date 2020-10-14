@@ -53,16 +53,17 @@ const orderDetailsReducer = (
 				isLoading: true,
 			};
 		case types.ORDER_DETAILS_SUCCESS:
-			console.log(action.payload);
 			return {
 				isLoading: false,
-				order: { ...action.payload },
+				order: action.payload,
 			};
 		case types.ORDER_DETAILS_FAIL:
 			return {
 				isLoading: false,
 				message: action.message,
 			};
+		case types.ORDER_DETAILS_RESET:
+			return { order: { shippingAddress: null }, isLoading: true };
 		default:
 			return state;
 	}
@@ -120,18 +121,45 @@ const getOrdersAdminReducer = (state = { orders: [] }, action) => {
 		case types.ORDERS_ADMIN_REQUEST:
 			return {
 				...state,
-				loading: true,
+				isLoading: true,
 			};
 		case types.ORDERS_ADMIN_SUCCESS:
 			return {
-				loading: false,
-				orders: { ...action.payload },
+				isLoading: false,
+				orders: action.payload,
 			};
 		case types.ORDERS_ADMIN_FAIL:
 			return {
-				loading: false,
+				isLoading: false,
 				errMessage: action.message,
 			};
+		case types.ORDERS_ADMIN_RESET:
+			return {
+				orders: [],
+			};
+		default:
+			return state;
+	}
+};
+
+const orderDeliverReducer = (state = {}, action) => {
+	switch (action.type) {
+		case types.ORDER_DELIVER_REQUEST:
+			return {
+				isLoading: true,
+			};
+		case types.ORDER_DELIVER_SUCCESS:
+			return {
+				isLoading: false,
+				success: true,
+			};
+		case types.ORDER_DELIVER_FAIL:
+			return {
+				isLoading: false,
+				message: action.message,
+			};
+		case types.ORDER_DELIVER_RESET:
+			return {};
 		default:
 			return state;
 	}
@@ -143,4 +171,5 @@ export {
 	orderPayReducer,
 	getMyOrderListReducer,
 	getOrdersAdminReducer,
+	orderDeliverReducer,
 };

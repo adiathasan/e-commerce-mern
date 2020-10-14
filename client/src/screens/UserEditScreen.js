@@ -18,7 +18,7 @@ const UserEditScreen = () => {
 	const history = useHistory();
 	const { userId } = useParams();
 	const { userProfile, isLoading } = useSelector((state) => state.userDetails);
-	const { user, isLoading: loading, message, success } = useSelector(
+	const { isLoading: loading, message, success } = useSelector(
 		(state) => state.userUpdateFromAdmin
 	);
 
@@ -37,7 +37,7 @@ const UserEditScreen = () => {
 				setIsAdmin(userProfile.isAdmin);
 			}
 		}
-	}, [history, userId, userProfile, success]);
+	}, [history, userId, userProfile, success, dispatch]);
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		dispatch(

@@ -80,4 +80,42 @@ const getMyOrders = async (req, res) => {
 	}
 };
 
-export { addOrderItems, getOrderedItems, updateOrderToPaid, getMyOrders };
+// @desc get orders to logged in user
+// @route GET/api/orders/myorders
+// @access private
+const getAllOrders = async (req, res) => {
+	const order = await Order.find({}).populate('user', 'id name');
+
+	if (order) {
+		res.json(order);
+	} else {
+		res.status(404);
+		throw new Error('Orders not found');
+	}
+};
+
+// @desc update order to delivered
+// @route PUT/api/orders/:orderId/deliver
+// @access private
+const updateOrderToDelivered = async (req, res) => {
+	const order = await Order.findById(req.params.orderId);
+
+	if (order) {
+		order.isDelivered = true;
+		order.deliveredAt = Date.now();
+		const updatedOrder = await order.save();
+		res.json(updatedOrder);
+	} else {
+		res.status(404);
+		throw new Error('Order not found');
+	}
+};
+
+export {
+	addOrderItems,
+	getOrderedItems,
+	updateOrderToPaid,
+	getMyOrders,
+	getAllOrders,
+	updateOrderToDelivered,
+};

@@ -3,10 +3,12 @@ import cors from 'cors';
 import router from './routers/router.js';
 import dotenv from 'dotenv';
 import { dbConfig } from './config/mongoDB.js';
-
+import path from 'path';
 dotenv.config();
 
 const app = express();
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 const PORT = process.env.PORT || 5000;
 
 // mongoDB connect

@@ -1,13 +1,19 @@
 import express from 'express';
+import { upload } from '../config/imgConfig.js';
 import {
 	addOrderItems,
 	getMyOrders,
 	getOrderedItems,
 	updateOrderToPaid,
+	getAllOrders,
+	updateOrderToDelivered,
 } from '../controller/orderController.js';
 import {
 	getProducts,
 	getProductById,
+	deleteProductById,
+	createProduct,
+	updateProduct,
 } from '../controller/productsControllers.js';
 import {
 	authUserController,
@@ -25,9 +31,16 @@ const router = express.Router();
 
 // product routes
 
-router.route('/products').get(getProducts);
+router
+	.route('/products')
+	.get(getProducts)
+	.post(protect, isAdmin, createProduct);
 
-router.route('/product/:productId').get(getProductById);
+router
+	.route('/product/:productId')
+	.get(getProductById)
+	.delete(protect, isAdmin, deleteProductById)
+	.put(protect, isAdmin, updateProduct);
 
 // user routes
 
@@ -51,12 +64,24 @@ router
 
 // order route
 
-router.route('/orders').post(protect, addOrderItems);
+router
+	.route('/orders')
+	.post(protect, addOrderItems)
+	.get(protect, isAdmin, getAllOrders);
 
 router.route('/orders/myorders').get(protect, getMyOrders);
 
 router.route('/orders/:orderId').get(protect, getOrderedItems);
 
 router.route('/orders/:orderId/pay').put(protect, updateOrderToPaid);
+
+router.route('/orders/:orderId/deliver').put(protect, updateOrderToDelivered);
+
+// image upload route
+
+router.post('/upload', upload.single('image'), (req, res) => {
+	console.log('logged');
+	res.send(`/${req.file.path}`);
+});
 
 export default router;

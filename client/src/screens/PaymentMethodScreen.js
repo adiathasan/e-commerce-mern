@@ -7,7 +7,7 @@ import CheckoutSteps from '../components/CheckoutSteps';
 
 const PaymentMethodScreen = () => {
 	const { shippingAddress } = useSelector((state) => state.shippingProccess);
-	const [paymentMethod, setpaymentMethod] = useState('');
+	const [paymentMethod, setpaymentMethod] = useState('Pay Pal');
 	const { user } = useSelector((state) => state.userInfo);
 	const history = useHistory();
 	const dispatch = useDispatch();

@@ -15,8 +15,9 @@ import { getSingleProduct } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { addToCartAction } from "../actions/cartActions";
+import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 
-const ProductScreen = () => {
+const ProductScreen = ({history}) => {
   const [isDuplicate, setIsDuplicate] = useState(false);
   const { productId } = useParams();
   const dispatch = useDispatch();
@@ -40,11 +41,13 @@ const ProductScreen = () => {
     dispatch(addToCartAction(product, 1));
     setIsDuplicate(true);
   };
-
+  useEffect(()=> {
+    checkDuplicateProduct(cartProducts, productId);
+  }, [cartProducts, productId])
   useEffect(() => {
     dispatch(getSingleProduct(productId));
-    checkDuplicateProduct(cartProducts, productId);
-  }, [dispatch, productId, cartProducts]);
+    
+  }, [dispatch, productId]);
 
   return (
     <div className="productScreen">
@@ -55,6 +58,9 @@ const ProductScreen = () => {
       ) : (
         <Row>
           <Col md={5}>
+            <Button variant="light" onClick={()=> {
+              history.push('/')
+            }} className="d-flex align-items-center btn-block rounded-top"><KeyboardBackspaceIcon/>Go back</Button>
             <Image src={product?.image} alt={product?.name} fluid />
           </Col>
           <Col md={4}>
