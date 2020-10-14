@@ -4,7 +4,15 @@ import Product from '../models/productModel.js';
 // @route GET/api/products
 // @access public to all
 const getProducts = (req, res) => {
-	Product.find({})
+	const keyword = req.query.keyword
+		? {
+				name: {
+					$regex: req.query.keyword,
+					$options: 'i',
+				},
+		  }
+		: {};
+	Product.find({ ...keyword })
 		.then((data) => res.status(200).json(data))
 		.catch((err) => res.status(500).json({ error: 'Server error' }));
 };
@@ -95,10 +103,52 @@ const updateProduct = async (req, res) => {
 	}
 };
 
+// @desc create new review
+// @route POST/api/product/:productId/review
+// @access private/user
+const createProductReview = async (req, res) => {
+	const { rating, comment } = req.body;
+
+	const product = await Product.findById(req.params.productId);
+
+	if (product) {
+		const alreadyReviewedByUser = product.reviews.find(
+			(p) => p.user.toString() === req.user._id.toString()
+		);
+		if (alreadyReviewedByUser) {
+			res.status(400);
+			res.send('Product Already Reviwed');
+		} else {
+			const review = {
+				name: req.user.name,
+				rating: Number(rating),
+				comment,
+				user: req.user._id,
+			};
+
+			product.reviews = [...product.reviews, review];
+
+			product.numReviews = product.reviews.length;
+
+			product.ratings =
+				product.reviews.reduce((incrementar, item) => {
+					return item.rating + incrementar;
+				}, 0) / product.reviews.length;
+
+			await product.save();
+			res.status(201).send('Review Added');
+		}
+	} else {
+		res.status(404);
+		throw new Error('Could not review the product');
+	}
+};
+
 export {
 	getProducts,
 	getProductById,
 	deleteProductById,
 	createProduct,
 	updateProduct,
+	createProductReview,
 };

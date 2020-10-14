@@ -14,6 +14,7 @@ import {
 	deleteProductById,
 	createProduct,
 	updateProduct,
+	createProductReview,
 } from '../controller/productsControllers.js';
 import {
 	authUserController,
@@ -35,6 +36,8 @@ router
 	.route('/products')
 	.get(getProducts)
 	.post(protect, isAdmin, createProduct);
+
+router.route('/product/:productId/review').post(protect, createProductReview);
 
 router
 	.route('/product/:productId')

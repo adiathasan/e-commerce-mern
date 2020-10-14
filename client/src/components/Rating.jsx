@@ -52,7 +52,7 @@ function Rating({ rating, text }) {
             <StarBorderIcon />
           )}
         </span>
-        <span className="ml-3 text-review">{text && text} reviews</span>
+        <span className="ml-3 text-review">{text && text} {text ? 'reviews': ''}</span>
       </div>
     </>
   );

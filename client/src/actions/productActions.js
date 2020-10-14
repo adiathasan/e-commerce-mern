@@ -1,10 +1,10 @@
 import * as types from '../CONSTANTS';
 import { instance } from '../axios';
 
-const getProductsAction = () => async (dispatch) => {
+const getProductsAction = (keyword = '') => async (dispatch) => {
 	try {
 		dispatch({ type: types.PRODUCT_LIST_REQUEST });
-		const { data } = await instance.get('/products');
+		const { data } = await instance.get(`/products?keyword=${keyword}`);
 		dispatch({
 			type: types.PRODUCT_LIST_SUCCESS,
 			products: data,
@@ -121,10 +121,44 @@ const updateProductAction = (product) => async (dispatch, getState) => {
 	}
 };
 
+const createReviewProductAction = (review, productId) => async (
+	dispatch,
+	getState
+) => {
+	const { token } = getState().userInfo.user;
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		};
+		dispatch({ type: types.PRODUCT_CREATE_REVIEW_REQUEST });
+		const { data } = await instance.post(
+			'/product/' + productId + '/review',
+			review,
+			config
+		);
+		dispatch({
+			type: types.PRODUCT_CREATE_REVIEW_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.PRODUCT_CREATE_REVIEW_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
 export {
 	getProductsAction,
 	getSingleProduct,
 	deleteProductAction,
 	createProductAction,
 	updateProductAction,
+	createReviewProductAction,
 };

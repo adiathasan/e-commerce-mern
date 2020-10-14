@@ -98,10 +98,22 @@ const getAllOrders = async (req, res) => {
 // @route PUT/api/orders/:orderId/deliver
 // @access private
 const updateOrderToDelivered = async (req, res) => {
-	const order = await Order.findById(req.params.orderId);
+	const order = await Order.findById(req.params.orderId).populate(
+		'user',
+		'email _id'
+	);
 
 	if (order) {
 		order.isDelivered = true;
+		if (order.paymentMethod === 'Pay on Delivery') {
+			order.isPaid = true;
+			order.paymentResult = {
+				id: order.user._id,
+				status: 'Paid on Delivery',
+				update_items: '***',
+				email_address: order.user.email,
+			};
+		}
 		order.deliveredAt = Date.now();
 		const updatedOrder = await order.save();
 		res.json(updatedOrder);

@@ -5,14 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductsAction } from "../actions/productActions";
 import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
+import { useParams } from 'react-router-dom';
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const {keyword} = useParams()
   const { products, isLoading, message } = useSelector(
     (state) => state.productList
   );
   useEffect(() => {
-    dispatch(getProductsAction());
-  }, [dispatch]);
+    dispatch(getProductsAction(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>
@@ -23,13 +25,13 @@ const HomeScreen = () => {
         <Message variant={"danger"}>{message}</Message>
       ) : (
         <Row>
-          {products?.map((product) => {
+          {products.length !== 0 ? products?.map((product) => {
             return (
               <Col key={product?._id} md={6} sm={12} lg={4} xl={3}>
                 <Product product={product} />
               </Col>
             );
-          })}
+          }): <h3 style={{color: "orangered"}}>Opps! product Not Found on search.</h3>}
         </Row>
       )}
     </>

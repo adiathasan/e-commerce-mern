@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getTotalCartItem } from "../reducers/cartReducers";
 import { userLogoutAction } from "../actions/userActions";
 import { MY_ORDER_RESET, USERS_LIST_RESET } from '../CONSTANTS';
+import SearchBox from './SearchBox';
 
 const Header = () => {
   const history = useHistory()
@@ -27,7 +28,7 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="sm" collapseOnSelect>
+      <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
           <Navbar.Brand>
             <NavLink to="/" exact style={{ textDecoration: "none" }}>
@@ -37,6 +38,7 @@ const Header = () => {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+            <SearchBox/>
             <Nav className="ml-auto">
               <NavLink
                 style={{ marginRight: "1rem" }}

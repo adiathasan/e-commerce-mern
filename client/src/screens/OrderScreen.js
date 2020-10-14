@@ -144,14 +144,13 @@ const OrderScreen = ({ history }) => {
 										<Col>${order.totalPrice}</Col>
 									</ListGroupItem>
 									{!order.isPaid ||
-										(order.paymentMethod === 'Pay on Delivery' && (
-											<ListGroupItem>
-												<PayPalButton
-													amount={order.totalPrice}
-													onSuccess={''}
-												/>
-											</ListGroupItem>
-										))}
+									order.paymentMethod !== 'Pay on Delivery' ? (
+										<ListGroupItem>
+											<PayPalButton amount={order.totalPrice} onSuccess={''} />
+										</ListGroupItem>
+									) : (
+										''
+									)}
 								</ListGroup>
 							</Card>
 						</Col>
