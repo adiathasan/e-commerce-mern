@@ -14,6 +14,7 @@ import Message from '../components/Message.jsx';
 import Loader from '../components/Loader.jsx';
 import { getOrderDetailsAction } from '../actions/orderActions.js';
 import { getTotalCartPrice } from '../reducers/cartReducers.js';
+import { Helmet } from 'react-helmet';
 
 const OrderScreen = ({ history }) => {
 	const { isLoading, order, message } = useSelector(
@@ -37,6 +38,9 @@ const OrderScreen = ({ history }) => {
 
 	return (
 		<>
+			<Helmet>
+				<title>Khulna-Shop | Order</title>
+			</Helmet>
 			{isLoading ? (
 				<Loader />
 			) : message ? (

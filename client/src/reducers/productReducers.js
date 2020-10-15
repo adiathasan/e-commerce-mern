@@ -31,6 +31,32 @@ const productListReducer = (
 	}
 };
 
+const productCarouselReducer = (state = { products: [] }, action) => {
+	switch (action.type) {
+		case types.PRODUCT_CAROUSEL_REQUEST:
+			return {
+				isLoading: true,
+				products: [],
+			};
+
+		case types.PRODUCT_CAROUSEL_SUCCESS:
+			return {
+				...state,
+				isLoading: false,
+				products: [...action.payload],
+			};
+		case types.PRODUCT_CAROUSEL_FAIL:
+			return {
+				isLoading: false,
+				products: [],
+				message: action.message,
+			};
+
+		default:
+			return state;
+	}
+};
+
 const productDetailsReducer = (state = { product: {} }, action) => {
 	switch (action.type) {
 		case types.PRODUCT_SINGLE_REQUEST:
@@ -164,4 +190,5 @@ export {
 	productCreateReducer,
 	productUpdateReducer,
 	createProductReviewReducer,
+	productCarouselReducer,
 };

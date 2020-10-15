@@ -6,6 +6,16 @@ body {
 	overflow-x: hidden;
 }
 
+.home__product {
+	border-radius: 6px;
+	box-shadow: 0 0px 6px -5px #0000007e;
+	transition: 0.3s ease-in;
+}
+
+.home__product:hover {
+	transform: scale(1.05);
+}
+
 header {
 	position: sticky;
 	top: 0;
@@ -16,6 +26,22 @@ header {
 
 .favicon {
 	height: 30px;
+}
+
+.car {
+	height: 300px;
+	border-radius: 6px;
+	box-shadow: 0 3px 5px 0px #0000007e;
+}
+.car h5 {
+	color: #1f0101;
+	font-weight: 300;
+}
+
+.car img {
+	margin: 2rem 0 0 0;
+	height: 200px;
+	border-radius: 99px;
 }
 
 .rating {

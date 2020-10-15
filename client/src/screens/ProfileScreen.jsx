@@ -16,6 +16,7 @@ import Message from "../components/Message";
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined'
+import {Helmet} from 'react-helmet'
 
 const ProfileScreen = () => {
     const [email, setEmail] = useState('');
@@ -70,6 +71,9 @@ const ProfileScreen = () => {
 		<Loader />
 	) : (
 			<Row className="justify-content-md-center">
+				<Helmet>
+					<title>Khulna-Shop | Profile</title>
+				</Helmet>
 				<Col md={3} >
 					<h2>User Profile</h2>
 					{message && <Message variant="danger">{message}</Message>}

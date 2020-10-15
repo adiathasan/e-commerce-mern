@@ -18,6 +18,7 @@ import Message from "../components/Message";
 import { addToCartAction } from "../actions/cartActions";
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import { PRODUCT_CREATE_REVIEW_FAIL, PRODUCT_CREATE_REVIEW_RESET } from '../CONSTANTS';
+import {Helmet} from 'react-helmet'
 
 const ProductScreen = ({history}) => {
   const [isDuplicate, setIsDuplicate] = useState(false);
@@ -35,21 +36,22 @@ const ProductScreen = ({history}) => {
   const { cartProducts } = useSelector((state) => state.cartTotalItem);
   useEffect(() => {
     window.scrollTo(0, 0);
+    
   }, []);
   const handleSubmit = e => {
     e.preventDefault()
     if(comment === ''){
       dispatch({type: PRODUCT_CREATE_REVIEW_FAIL, message: 'provide a comment for rating'})
       setTimeout(()=> {
-         dispatch({
-        type: PRODUCT_CREATE_REVIEW_RESET
-      })
+        dispatch({
+          type: PRODUCT_CREATE_REVIEW_RESET
+        })
       },3000)
     }else{
       dispatch(createReviewProductAction({comment, rating}, productId))
     }
   }
-
+  
   const checkDuplicateProduct = (cartProducts, id) => {
     const duplicate = cartProducts.filter((p) => {
       return p.cartProduct._id === id;
@@ -60,7 +62,7 @@ const ProductScreen = ({history}) => {
       setIsDuplicate(false);
     }
   };
-
+  
   const handleAddToCart = () => {
     dispatch(addToCartAction(product, 1));
     setIsDuplicate(true);
@@ -69,22 +71,21 @@ const ProductScreen = ({history}) => {
     checkDuplicateProduct(cartProducts, productId);
   }, [cartProducts, productId])
   useEffect(()=> {
-     if(errorReview === 'Request failed with status code 400'){
+    if(errorReview === 'Request failed with status code 400'){
       dispatch({
         type: PRODUCT_CREATE_REVIEW_FAIL,
         message: 'Already reviewed'
       })
-
+      
       setTimeout(()=> {
          dispatch({
-        type: PRODUCT_CREATE_REVIEW_RESET
-      })
-      },3000)
+           type: PRODUCT_CREATE_REVIEW_RESET
+          })
+        },3000)
       
-    }
-  }, [dispatch, errorReview])
-  useEffect(() => {
-    
+      }
+    }, [dispatch, errorReview])
+    useEffect(() => {
     if(success){
       alert('Review Submitted')
       setComment('')
@@ -99,6 +100,7 @@ const ProductScreen = ({history}) => {
 
   return (
     <div className="productScreen">
+        
       {isLoading || loading ? (
         <Loader />
       ) : message ? (
@@ -106,6 +108,9 @@ const ProductScreen = ({history}) => {
       ) : (
         <>
           <Row>
+              <Helmet>
+                <title>{'Khulna-Shop | ' + (product.name ?  product.name : '')}</title>
+              </Helmet>
           <Col md={5}>
             <Button variant="light" onClick={()=> {
               history.push('/')

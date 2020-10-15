@@ -7,6 +7,9 @@ import Loader from "../components/Loader.jsx";
 import Message from "../components/Message.jsx";
 import { useParams } from 'react-router-dom';
 import PaginationComponent from '../components/Pagination.js'
+import CarouselProducts from '../components/CarouselProducts.js';
+import {Helmet} from 'react-helmet'
+
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const {keyword, pageNumber} = useParams()
@@ -18,10 +21,17 @@ const HomeScreen = () => {
   }, [dispatch, keyword, pageNumber]);
   useEffect(() => {
       window.scrollTo(0, 0);
-    }, [pageNumber, keyword]);
+    }, [keyword]);
+
   return (
     <>
-      <h1>Latest Products</h1>
+    <Helmet>
+  <title>Khulna-Shop | Home</title>
+    </Helmet>
+    {
+      !keyword &&  <CarouselProducts/> 
+    }
+      <h1 className="mt-3">Latest Products</h1>
       {isLoading ? (
         <Loader />
       ) : message ? (
@@ -31,7 +41,7 @@ const HomeScreen = () => {
         <Row>
           {products.length !== 0 ? products?.map((product) => {
             return (
-              <Col key={product?._id} md={6} sm={12} lg={4} xl={3}>
+              <Col key={product?._id} md={6} sm={12} lg={4} xl={3} className="home__product">
                 <Product product={product} />
                
               </Col>

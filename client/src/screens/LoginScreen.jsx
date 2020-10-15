@@ -7,6 +7,7 @@ import {Link, useHistory} from 'react-router-dom'
 import { userLoginAction } from '../actions/userActions.js'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import {Helmet} from 'react-helmet'
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
@@ -35,6 +36,9 @@ const LoginScreen = () => {
                 isLoading ? <Loader/> :  <Container>
               
             <Row className="justify-content-md-center">
+                    <Helmet>
+                        <title>Khulna-Shop | Login</title>
+                    </Helmet>
                 <Col xs={12} md={6}>
                     <h1>Sigh-In</h1>
                     {

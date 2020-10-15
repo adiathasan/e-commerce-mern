@@ -12,6 +12,7 @@ import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Helmet } from 'react-helmet';
 
 const UserListScreen = ({ history }) => {
 	const dispatch = useDispatch();
@@ -35,6 +36,9 @@ const UserListScreen = ({ history }) => {
 	}, [dispatch, user, history, successMessage]);
 	return (
 		<>
+			<Helmet>
+				<title>Khulna-Shop | All Users</title>
+			</Helmet>
 			<h2>Users</h2>
 			{isLoading ? (
 				<Loader />

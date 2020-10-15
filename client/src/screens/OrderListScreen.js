@@ -10,6 +10,8 @@ import {
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
 import { ORDER_DELIVER_RESET } from '../CONSTANTS.js';
+import { Helmet } from 'react-helmet';
+
 const OrderListScreen = ({ history }) => {
 	const dispatch = useDispatch();
 	const { orders, isLoading, message } = useSelector(
@@ -35,6 +37,9 @@ const OrderListScreen = ({ history }) => {
 	}, [dispatch, user, history, successDeliver]);
 	return (
 		<>
+			<Helmet>
+				<title>Khulna-Shop | All Orders</title>
+			</Helmet>
 			<Row>
 				<Col>
 					<h1>Orders</h1>

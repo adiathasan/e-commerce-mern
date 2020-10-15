@@ -80,11 +80,13 @@ const getMyOrders = async (req, res) => {
 	}
 };
 
-// @desc get orders to logged in user
-// @route GET/api/orders/myorders
+// @desc get all orders for admin
+// @route GET/api/orders
 // @access private
 const getAllOrders = async (req, res) => {
-	const order = await Order.find({}).populate('user', 'id name');
+	const order = await Order.find({})
+		.populate('user', 'id name')
+		.sort({ createdAt: -1 });
 
 	if (order) {
 		res.json(order);

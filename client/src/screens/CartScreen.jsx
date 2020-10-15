@@ -15,6 +15,7 @@ import Message from "../components/Message";
 import { Link } from "react-router-dom";
 import { addToCartAction, removeFromCartAction } from "../actions/cartActions";
 import { getTotalCartItem, getTotalCartPrice } from "../reducers/cartReducers";
+import {Helmet} from 'react-helmet'
 
 
 const CartScreen = ({history}) => {
@@ -39,6 +40,9 @@ const CartScreen = ({history}) => {
   };
   return (
     <Row>
+      <Helmet>
+        <title>{`Khulna-Shop | cart(${getTotalCartItem(cartProducts)})`}</title>
+      </Helmet>
       <Col md={8}>
         <h1>Shopping Cart</h1>
         {cartProducts.length === 0 ? (

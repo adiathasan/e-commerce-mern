@@ -24,6 +24,25 @@ const getProductsAction = (keyword = '', pageNumber = '') => async (
 	}
 };
 
+const getProductsCarouselAction = () => async (dispatch) => {
+	try {
+		dispatch({ type: types.PRODUCT_CAROUSEL_REQUEST });
+		const { data } = await instance.get(`/products/carousel`);
+		dispatch({
+			type: types.PRODUCT_CAROUSEL_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.PRODUCT_CAROUSEL_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
 const getSingleProduct = (productId) => async (dispatch) => {
 	try {
 		dispatch({ type: types.PRODUCT_SINGLE_REQUEST });
@@ -165,4 +184,5 @@ export {
 	createProductAction,
 	updateProductAction,
 	createReviewProductAction,
+	getProductsCarouselAction,
 };

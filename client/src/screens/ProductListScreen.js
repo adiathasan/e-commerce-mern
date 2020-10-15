@@ -15,6 +15,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { PRODUCT_CREATE_RESET } from '../CONSTANTS.js';
 import PaginationComponent from '../components/Pagination.js';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 const ProductListScreen = ({ history, match }) => {
 	const dispatch = useDispatch();
@@ -68,6 +69,9 @@ const ProductListScreen = ({ history, match }) => {
 	return (
 		<>
 			<Row>
+				<Helmet>
+					<title>Khulna-Shop | All Products</title>
+				</Helmet>
 				<Col>
 					<h1>Products</h1>
 				</Col>

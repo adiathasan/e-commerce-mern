@@ -15,6 +15,7 @@ import {
 	createProduct,
 	updateProduct,
 	createProductReview,
+	getCarouseltProducts,
 } from '../controller/productsControllers.js';
 import {
 	authUserController,
@@ -36,6 +37,8 @@ router
 	.route('/products')
 	.get(getProducts)
 	.post(protect, isAdmin, createProduct);
+
+router.route('/products/carousel').get(getCarouseltProducts);
 
 router.route('/product/:productId/review').post(protect, createProductReview);
 

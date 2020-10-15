@@ -4,7 +4,7 @@ import Product from '../models/productModel.js';
 // @route GET/api/products
 // @access public to all
 const getProducts = async (req, res) => {
-	const pageSize = 6;
+	const pageSize = 8;
 	const page = req.query.pageNumber || 1;
 	const keyword = req.query.keyword
 		? {
@@ -154,6 +154,17 @@ const createProductReview = async (req, res) => {
 	}
 };
 
+// @desc get carousel products
+// @route GET/api/products/carousel
+// @access public to all
+const getCarouseltProducts = (req, res) => {
+	Product.find({})
+		.sort({ rating: -1 })
+		.limit(3)
+		.then((data) => res.status(200).json(data))
+		.catch((err) => res.status(404).json({ error: 'Product not found' }));
+};
+
 export {
 	getProducts,
 	getProductById,
@@ -161,4 +172,5 @@ export {
 	createProduct,
 	updateProduct,
 	createProductReview,
+	getCarouseltProducts,
 };
