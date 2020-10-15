@@ -1,13 +1,17 @@
 import * as types from '../CONSTANTS';
 import { instance } from '../axios';
 
-const getProductsAction = (keyword = '') => async (dispatch) => {
+const getProductsAction = (keyword = '', pageNumber = '') => async (
+	dispatch
+) => {
 	try {
 		dispatch({ type: types.PRODUCT_LIST_REQUEST });
-		const { data } = await instance.get(`/products?keyword=${keyword}`);
+		const { data } = await instance.get(
+			`/products?keyword=${keyword}&pageNumber=${pageNumber}`
+		);
 		dispatch({
 			type: types.PRODUCT_LIST_SUCCESS,
-			products: data,
+			payload: data,
 		});
 	} catch (error) {
 		dispatch({

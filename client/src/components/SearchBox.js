@@ -3,9 +3,16 @@ import { Form, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 const SearchBox = () => {
 	const history = useHistory();
-	// const [keyword, setKeyword] = useState('');
+	const [keyword, setKeyword] = useState('');
 	const handleSearch = (keyword) => {
-		// e.preventDefault();
+		if (keyword.trim()) {
+			history.push(`/search/${keyword}`);
+		} else {
+			history.push('/');
+		}
+	};
+	const handleSubmit = (e) => {
+		e.preventDefault();
 		if (keyword.trim()) {
 			history.push(`/search/${keyword}`);
 		} else {
@@ -14,18 +21,23 @@ const SearchBox = () => {
 	};
 	return (
 		<Form
-			// onSubmit={handleSearch}
+			onSubmit={handleSubmit}
 			inline
-			className="d-flex flex-grow-1 justify-content-center justify-content-md-start w-100 align-items-center my-3 mb-md-0">
+			className="d-flex flex-grow-1 justify-content-center justify-content-md-start align-items-center my-3 mb-md-0">
 			<Form.Control
 				name="q"
 				placeholder="Search Product..."
-				className="mr-sm-2 ml-sm-5 rounded"
+				className="mr-sm-2 rounded py-0"
 				type="text"
-				onChange={(e) => handleSearch(e.target.value)}></Form.Control>
+				style={{ marginTop: '-14px' }}
+				onChange={(e) => {
+					setKeyword(e.target.value);
+					handleSearch(e.target.value);
+				}}></Form.Control>
 			<Button
 				type="submit"
 				variant="outline-info"
+				style={{ marginTop: '-14px' }}
 				className="p-2 rounded d-none d-lg-inline">
 				Search
 			</Button>

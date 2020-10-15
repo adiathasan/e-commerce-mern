@@ -134,7 +134,7 @@ const ProductEditScreen = ({ history }) => {
 									onChange={(e) => setPrice(e.target.value)}></Form.Control>
 							</Form.Group>
 							<Form.Group>
-								<Form.Label>Image</Form.Label>
+								<Form.Label>Image / URL</Form.Label>
 								<Form.Control
 									disabled={uploading}
 									required

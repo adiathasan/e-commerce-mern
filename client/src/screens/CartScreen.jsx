@@ -27,7 +27,7 @@ const CartScreen = ({history}) => {
 
   const handleCheckoutBtn = () => {
     if(!user){
-      history.push('/login?redirect=checkout')
+      history.push('/login?redirect=shipping')
     }else{
       history.push('/shipping')
     }

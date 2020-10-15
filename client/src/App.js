@@ -22,44 +22,46 @@ import OrderListScreen from './screens/OrderListScreen.js';
 
 const App = () => {
 	return (
-		<>
-			<Router>
-				<Header />
-				<main className="py-3">
-					<Container>
-						<Switch>
-							<Route path="/search/:keyword" exact component={HomeScreen} />
-							<Route path="/" exact component={HomeScreen} />
-							<Route path="/product/:productId" component={ProductScreen} />
-							<Route
-								path="/admin/product/:productId/edit"
-								component={ProductEditScreen}
-							/>
-							<Route
-								path="/admin/products"
-								component={ProductListScreen}
-								exact
-							/>
-							<Route path="/cart/:productId?" component={CartScreen} />
-							<Route path="/login" component={LoginScreen} />
-							<Route path="/signup" component={RegisterScreen} />
-							<Route path="/profile" component={ProfileScreen} />
-							<Route path="/admin/users" component={UserListScreen} />
-							<Route
-								path="/admin/user/:userId/edit"
-								component={UserEditScreen}
-							/>
-							<Route path="/shipping" component={ShippingScreen} />
-							<Route path="/payment" component={PaymentMethodScreen} />
-							<Route path="/place-order" component={PlaceOrderScreen} />
-							<Route path="/order/:orderId" component={OrderScreen} />
-							<Route path="/admin/orders" component={OrderListScreen} />
-						</Switch>
-					</Container>
-				</main>
-				<Footer />
-			</Router>
-		</>
+		<Router>
+			<Header />
+			<main className="py-3">
+				<Container>
+					<Switch>
+						<Route path="/search/:keyword" exact component={HomeScreen} />
+						<Route
+							path="`/search/:keyword/page/:pageNumber"
+							exact
+							component={HomeScreen}
+						/>
+						<Route path="/page/:pageNumber" exact component={HomeScreen} />
+						<Route path="/" exact component={HomeScreen} />
+						<Route path="/product/:productId" component={ProductScreen} />
+						<Route
+							path="/admin/product/:productId/edit"
+							component={ProductEditScreen}
+						/>
+						<Route
+							path="/admin/products/:pageNumber"
+							component={ProductListScreen}
+							exact
+						/>
+						<Route path="/admin/products" component={ProductListScreen} exact />
+						<Route path="/cart/:productId?" component={CartScreen} />
+						<Route path="/login" component={LoginScreen} />
+						<Route path="/signup" component={RegisterScreen} />
+						<Route path="/profile" component={ProfileScreen} />
+						<Route path="/admin/users" component={UserListScreen} />
+						<Route path="/admin/user/:userId/edit" component={UserEditScreen} />
+						<Route path="/shipping" component={ShippingScreen} />
+						<Route path="/payment" component={PaymentMethodScreen} />
+						<Route path="/place-order" component={PlaceOrderScreen} />
+						<Route path="/order/:orderId" component={OrderScreen} />
+						<Route path="/admin/orders" component={OrderListScreen} />
+					</Switch>
+				</Container>
+			</main>
+			<Footer />
+		</Router>
 	);
 };
 

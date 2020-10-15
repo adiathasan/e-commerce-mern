@@ -1,6 +1,9 @@
 import * as types from '../CONSTANTS';
 
-const productListReducer = (state = { products: [] }, action) => {
+const productListReducer = (
+	state = { products: [], page: 1, pages: 1 },
+	action
+) => {
 	switch (action.type) {
 		case types.PRODUCT_LIST_REQUEST:
 			return {
@@ -10,8 +13,11 @@ const productListReducer = (state = { products: [] }, action) => {
 
 		case types.PRODUCT_LIST_SUCCESS:
 			return {
+				...state,
 				isLoading: false,
-				products: [...action.products],
+				products: [...action.payload.products],
+				page: action.payload.page,
+				pages: action.payload.pages,
 			};
 		case types.PRODUCT_LIST_FAIL:
 			return {

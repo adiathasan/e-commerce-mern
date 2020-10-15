@@ -35,59 +35,65 @@ const UserListScreen = ({ history }) => {
 	}, [dispatch, user, history, successMessage]);
 	return (
 		<>
+			<h2>Users</h2>
 			{isLoading ? (
 				<Loader />
 			) : message ? (
 				<Message variant="danger">{message}</Message>
 			) : (
-				<Table className="table-sm" striped hover responsive bordered>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>NAME</th>
-							<th>EMAIL</th>
-							<th>ADMIN</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{users.map((user) => (
-							<tr key={user._id}>
-								<td>{user._id}</td>
-								<td>{user.name}</td>
-								<td>
-									<a href={`mailto:${user.email}`}>{user.email}</a>
-								</td>
-								<td>
-									{user.isAdmin ? (
-										<CheckOutlinedIcon
-											style={{ color: 'green', transform: 'scale(.85)' }}
-										/>
-									) : (
-										<ClearOutlinedIcon
-											style={{ color: 'red', transform: 'scale(.85)' }}
-										/>
-									)}
-								</td>
-								<td>
-									<LinkContainer to={'/admin/user/' + user._id + '/edit'}>
-										<Button variant="light" className="btn-sm">
-											<EditOutlinedIcon
-												style={{ color: 'lightblue', transform: 'scale(.85)' }}
-											/>
-										</Button>
-									</LinkContainer>
-									<Button
-										variant="danger"
-										onClick={() => handleDelete(user._id)}
-										className="btn-sm">
-										<DeleteIcon />
-									</Button>
-								</td>
+				<>
+					<Table className="table-sm" striped hover responsive bordered>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>NAME</th>
+								<th>EMAIL</th>
+								<th>ADMIN</th>
+								<th></th>
 							</tr>
-						))}
-					</tbody>
-				</Table>
+						</thead>
+						<tbody>
+							{users.map((user) => (
+								<tr key={user._id}>
+									<td>{user._id}</td>
+									<td>{user.name}</td>
+									<td>
+										<a href={`mailto:${user.email}`}>{user.email}</a>
+									</td>
+									<td>
+										{user.isAdmin ? (
+											<CheckOutlinedIcon
+												style={{ color: 'green', transform: 'scale(.85)' }}
+											/>
+										) : (
+											<ClearOutlinedIcon
+												style={{ color: 'red', transform: 'scale(.85)' }}
+											/>
+										)}
+									</td>
+									<td>
+										<LinkContainer to={'/admin/user/' + user._id + '/edit'}>
+											<Button variant="light" className="btn-sm">
+												<EditOutlinedIcon
+													style={{
+														color: 'lightblue',
+														transform: 'scale(.85)',
+													}}
+												/>
+											</Button>
+										</LinkContainer>
+										<Button
+											variant="danger"
+											onClick={() => handleDelete(user._id)}
+											className="btn-sm">
+											<DeleteIcon />
+										</Button>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</Table>
+				</>
 			)}
 		</>
 	);

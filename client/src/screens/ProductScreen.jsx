@@ -33,7 +33,9 @@ const ProductScreen = ({history}) => {
     (state) => state.createProductReview
   );
   const { cartProducts } = useSelector((state) => state.cartTotalItem);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const handleSubmit = e => {
     e.preventDefault()
     if(comment === ''){
