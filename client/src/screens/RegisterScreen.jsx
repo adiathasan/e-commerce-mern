@@ -27,12 +27,12 @@ const RegisterScreen = () => {
 	const handleShowConfirmPassword = () => {
 		setShowConfirmPassword(!showConfirmPassword)
 	} 
-
+	const redirect = history.location.search !== '' ? history.location.search.split("=")[1] : '/'
 	useEffect(() => {
 		if (user) {
-			history.push('/');
+			history.push(redirect);
 		}
-	}, [user, history]);
+	}, [user, history, redirect]);
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if(password === confirmPassword){

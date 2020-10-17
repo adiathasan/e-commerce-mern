@@ -23,6 +23,10 @@ const userSchema = new Schema(
 			required: true,
 			default: false,
 		},
+		isPro: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	{ timestamps: true }
 );

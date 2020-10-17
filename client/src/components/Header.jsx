@@ -70,12 +70,20 @@ const Header = () => {
                     }}>
                       profile
                     </NavDropdown.Item>
+                   {
+                     user.store &&  user.store.map(s => (
+                       <NavDropdown.Item key={s._id} onClick={() => {
+                      user ? history.push('/store/admin/'+ s._id) : history.push('/login?redirect=profile')
+                    }}>
+                      {s.name}
+                    </NavDropdown.Item>
+                     ))
+                   }
                     <NavDropdown.Item onClick={handleLogout}>Log-Out</NavDropdown.Item>
                  </NavDropdown>
               )
               }
-            <NavLink
-                
+            <NavLink   
                 to="/cart"
                 className="d-flex align-items-center justify-content-center border-bottom pb-1   mx-auto  my-3 my-md-0 ml-md-2"
               >

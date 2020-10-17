@@ -38,9 +38,13 @@ const ProductEditScreen = ({ history }) => {
 			dispatch({
 				type: PRODUCT_UPDATE_RESET,
 			});
-			history.push('/admin/products');
+			if (user.isAdmin) {
+				history.push('/admin/products');
+			} else {
+				history.push('/store/admin/' + user.store[0]._id);
+			}
 		}
-		if (!user || !user.isAdmin) {
+		if (!user) {
 			history.push('/login');
 		}
 		dispatch(getSingleProduct(productId));
@@ -69,6 +73,7 @@ const ProductEditScreen = ({ history }) => {
 				category,
 				countInStock,
 				description,
+				store: user.store[0]._id,
 			})
 		);
 	};

@@ -9,7 +9,7 @@ import {
   ListGroupItem,
   Form
 } from "react-bootstrap";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, NavLink } from "react-router-dom";
 import Rating from "../components/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleProduct, createReviewProductAction } from "../actions/productActions";
@@ -121,6 +121,11 @@ const ProductScreen = ({history}) => {
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <h4>{product?.name}</h4>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <NavLink to={`/store/${product?.store?._id}`}>
+                  <h5>{product?.store?.name}</h5>
+                </NavLink>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Rating

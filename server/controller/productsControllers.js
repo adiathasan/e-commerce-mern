@@ -32,6 +32,7 @@ const getProducts = async (req, res) => {
 // @access public to all
 const getProductById = (req, res) => {
 	Product.findById(req.params.productId)
+		.populate('store', 'name coupons')
 		.then((data) => res.status(200).json(data))
 		.catch((err) => res.status(404).json({ error: 'Product not found' }));
 };
@@ -53,7 +54,7 @@ const deleteProductById = async (req, res) => {
 
 // @desc create products
 // @route CREATE/api/products
-// @access private/admin
+// @access private/admin/store
 const createProduct = async (req, res) => {
 	const product = new Product({
 		name: 'sample',
@@ -65,6 +66,7 @@ const createProduct = async (req, res) => {
 		countInStock: 0,
 		numReviews: 0,
 		description: 'sample description',
+		store: '5f8afaf08c689c0a304274bf',
 	});
 
 	const createdProduct = await product.save();
@@ -91,6 +93,7 @@ const updateProduct = async (req, res) => {
 		countInStock,
 		numReviews,
 		description,
+		store,
 	} = req.body;
 
 	const product = await Product.findById(req.params.productId);
@@ -105,6 +108,7 @@ const updateProduct = async (req, res) => {
 		product.countInStock = countInStock || product.countInStock;
 		product.numReviews = numReviews || product.numReviews;
 		product.description = description || product.description;
+		product.store = store || product.store;
 		const createdProduct = await product.save();
 		res.json(createdProduct);
 	} else {

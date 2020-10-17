@@ -18,6 +18,13 @@ import {
 	getCarouseltProducts,
 } from '../controller/productsControllers.js';
 import {
+	createCouponController,
+	createStoreController,
+	getAllStoresController,
+	getStoreController,
+	setActiveCouponController,
+} from '../controller/storeController.js';
+import {
 	authUserController,
 	deleteUserController,
 	getAllUsersController,
@@ -28,15 +35,16 @@ import {
 	updateUserById,
 } from '../controller/usersController.js';
 
-import { isAdmin, protect } from '../middleware/authMiddleware.js';
+import {
+	isAdmin,
+	isProductStore,
+	protect,
+} from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 // product routes
 
-router
-	.route('/products')
-	.get(getProducts)
-	.post(protect, isAdmin, createProduct);
+router.route('/products').get(getProducts).post(protect, createProduct);
 
 router.route('/products/carousel').get(getCarouseltProducts);
 
@@ -46,7 +54,7 @@ router
 	.route('/product/:productId')
 	.get(getProductById)
 	.delete(protect, isAdmin, deleteProductById)
-	.put(protect, isAdmin, updateProduct);
+	.put(protect, isProductStore, updateProduct);
 
 // user routes
 
@@ -68,7 +76,7 @@ router
 	.get(protect, isAdmin, getUserById)
 	.put(protect, isAdmin, updateUserById);
 
-// order route
+// order routes
 
 router
 	.route('/orders')
@@ -89,5 +97,19 @@ router.post('/upload', upload.single('image'), (req, res) => {
 	console.log('logged');
 	res.send(`/${req.file.path}`);
 });
+
+// store routes
+
+router
+	.route('/stores')
+	.get(getAllStoresController)
+	.post(protect, createStoreController);
+
+router.route('/store/admin/:storeId/coupon').post(createCouponController);
+router
+	.route('/store/admin/:storeId/coupon/:couponId')
+	.put(setActiveCouponController);
+
+router.route('/store/:storeId').get(getStoreController);
 
 export default router;

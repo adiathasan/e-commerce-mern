@@ -27,6 +27,11 @@ const reviewSchema = new Schema(
 
 const productSchema = new Schema(
 	{
+		store: {
+			type: Schema.Types.ObjectId,
+			required: true,
+			ref: 'Store',
+		},
 		user: {
 			type: Schema.Types.ObjectId,
 			required: true,
