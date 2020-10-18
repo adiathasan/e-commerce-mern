@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Table } from 'react-bootstrap';
 import Product from '../components/Product.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSingleStore } from '../actions/storeActions';
@@ -9,6 +9,10 @@ import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Button } from '@material-ui/core';
 import { createProductAction } from '../actions/productActions.js';
+import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
+import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const StoreManageScreen = ({ history }) => {
 	const dispatch = useDispatch();
@@ -37,6 +41,10 @@ const StoreManageScreen = ({ history }) => {
 		dispatch(createProductAction());
 	};
 
+	const handleDelete = (couponId) => {
+		//
+	};
+
 	return (
 		<>
 			{isLoading || loadingCreate ? (
@@ -59,12 +67,92 @@ const StoreManageScreen = ({ history }) => {
 							{store.coupons && store.coupons[0].discount}%)
 						</h4>
 					)}
-					<Button
-						variant="contained"
-						onClick={handleCreateProduct}
-						style={{ marginBottom: '1rem' }}>
-						Add product
-					</Button>
+					<Row className="text-center">
+						<Col md={4}>
+							<Button
+								variant="contained"
+								onClick={handleCreateProduct}
+								style={{ marginBottom: '1rem' }}>
+								Add product
+							</Button>
+						</Col>
+						<Col md={4}>
+							<Button
+								style={{ marginBottom: '1rem' }}
+								variant="contained"
+								onClick={() => {
+									history.push('/createstore?id=' + store._id);
+								}}>
+								Edit Store
+							</Button>
+						</Col>
+						<Col md={4}>
+							<Button
+								style={{ marginBottom: '1rem' }}
+								variant="contained"
+								onClick={() => {
+									history.push('/createstore?id=' + store._id);
+								}}>
+								Create coupon
+							</Button>
+						</Col>
+					</Row>
+					<Table className="table-sm" striped hover responsive bordered>
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>TOKEN NAME</th>
+								<th>ACTIVE</th>
+								<th>DISCOUNT(%)</th>
+								<th>CHANGE STATUS</th>
+							</tr>
+						</thead>
+						<tbody>
+							{store.coupons &&
+								store.coupons.map((coupon) => (
+									<tr key={coupon._id}>
+										<td>{coupon._id}</td>
+										<td>{coupon.token}</td>
+										<td>
+											{coupon.isAcive ? (
+												<CheckOutlinedIcon
+													style={{ color: 'green', transform: 'scale(.85)' }}
+												/>
+											) : (
+												<ClearOutlinedIcon
+													style={{ color: 'red', transform: 'scale(.85)' }}
+												/>
+											)}
+										</td>
+										<td>{coupon.discount}</td>
+										<td>
+											<Button
+												onClick={() => {
+													history.push(
+														`/createstore?id=${store._id}=${coupon._id}=${coupon.token}=${coupon.discount}`
+													);
+												}}
+												variant="contained"
+												className="btn-sm">
+												<EditOutlinedIcon
+													style={{
+														color: 'lightblue',
+														transform: 'scale(.85)',
+													}}
+												/>
+											</Button>
+
+											<Button
+												variant="contained"
+												onClick={() => handleDelete(coupon._id)}
+												className="btn-sm">
+												<DeleteIcon />
+											</Button>
+										</td>
+									</tr>
+								))}
+						</tbody>
+					</Table>
 					<Row>
 						{products.length !== 0 ? (
 							products?.map((product) => {
@@ -84,17 +172,10 @@ const StoreManageScreen = ({ history }) => {
 							<Message>No products in your store</Message>
 						)}
 					</Row>
-					<Row>
+					<Row className="bg-primary text-white">
 						<Col md={6} sm={12} lg={4} xl={3}>
 							{store.coupons && (
 								<>
-									<Button
-										variant="contained"
-										onClick={() => {
-											history.push('/createstore?id=' + store._id);
-										}}>
-										Edit Store
-									</Button>
 									<p className="mt-2">contact: {store.contact}</p>
 									<p className="mt-2">email: {store.email}</p>
 									<p className="mt-2">address: {store.address}</p>

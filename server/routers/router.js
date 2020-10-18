@@ -23,6 +23,7 @@ import {
 	getAllStoresController,
 	getStoreController,
 	setActiveCouponController,
+	updatetStoreController,
 } from '../controller/storeController.js';
 import {
 	authUserController,
@@ -38,6 +39,7 @@ import {
 import {
 	isAdmin,
 	isProductStore,
+	isStoreAdmin,
 	protect,
 } from '../middleware/authMiddleware.js';
 const router = express.Router();
@@ -110,6 +112,9 @@ router
 	.route('/store/admin/:storeId/coupon/:couponId')
 	.put(setActiveCouponController);
 
-router.route('/store/:storeId').get(getStoreController);
+router
+	.route('/store/:storeId')
+	.get(getStoreController)
+	.put(protect, isStoreAdmin, updatetStoreController);
 
 export default router;

@@ -12,10 +12,17 @@ const storeDetailsReducer = (state = { store: {}, products: [] }, action) => {
 				isLoading: false,
 				store: action.payload.store,
 				products: action.payload.products,
+				success: true,
 			};
 		case types.STORE_SINGLE_FAIL:
 			return {
 				isLoading: false,
+				store: {},
+				products: [],
+				message: action.message,
+			};
+		case types.STORE_SINGLE_RESET:
+			return {
 				store: {},
 				products: [],
 				message: action.message,
@@ -41,6 +48,7 @@ const createStoreReducer = (state = {}, action) => {
 		case types.CREATE_STORE_FAIL:
 			return {
 				isLoading: false,
+				message: action.error,
 			};
 
 		default:
@@ -48,4 +56,29 @@ const createStoreReducer = (state = {}, action) => {
 	}
 };
 
-export { storeDetailsReducer, createStoreReducer };
+const updateStoreReducer = (state = {}, action) => {
+	switch (action.type) {
+		case types.UPDATE_STORE_REQUEST:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case types.UPDATE_STORE_SUCCESS:
+			return {
+				isLoading: false,
+				success: true,
+			};
+		case types.UPDATE_STORE_FAIL:
+			return {
+				isLoading: false,
+				message: action.message,
+			};
+		case types.UPDATE_STORE_RESET:
+			return {};
+
+		default:
+			return state;
+	}
+};
+
+export { storeDetailsReducer, createStoreReducer, updateStoreReducer };

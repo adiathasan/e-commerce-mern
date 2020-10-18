@@ -75,6 +75,16 @@ const ProfileScreen = () => {
 					<title>Khulna-Shop | Profile</title>
 				</Helmet>
 				<Col md={3} >
+					{
+						user.store.length > 0  ? '' :
+						 <Button
+							onClick={() => history.push('createstore')}
+							variant="primary"
+							type="submit"
+							className="mt-2 btn-block">
+							create store
+						</Button>
+					}
 					<h2>User Profile</h2>
 					{message && <Message variant="danger">{message}</Message>}
 					{errMsg && <Message variant="danger">{errMsg}</Message>}

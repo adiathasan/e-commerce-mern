@@ -41,6 +41,24 @@ const isProductStore = async (req, res, next) => {
 	}
 };
 
+const isStoreAdmin = async (req, res, next) => {
+	const store = await Store.findById(req.params.storeId).populate(
+		'user',
+		'email'
+	);
+	if (req.user && req.user.isAdmin) {
+		next();
+	} else {
+		if (store.user._id.toString() === req.user._id.toString()) {
+			next();
+		} else {
+			res.status(401).send({
+				message: 'Not authorized as an Admin',
+			});
+		}
+	}
+};
+
 const isAdmin = (req, res, next) => {
 	if (req.user && req.user.isAdmin) {
 		next();
@@ -49,4 +67,4 @@ const isAdmin = (req, res, next) => {
 	}
 };
 
-export { protect, isAdmin, isProductStore };
+export { protect, isAdmin, isProductStore, isStoreAdmin };

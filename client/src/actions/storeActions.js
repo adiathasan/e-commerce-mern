@@ -49,4 +49,32 @@ const createStoreAction = (store) => async (dispatch, getState) => {
 	}
 };
 
-export { getSingleStore, createStoreAction };
+const updateStoreAction = (storeId, store) => async (dispatch, getState) => {
+	const { token } = getState().userInfo.user;
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + token,
+			},
+		};
+		dispatch({ type: types.UPDATE_STORE_REQUEST });
+
+		const { data } = await instance.put('/store/' + storeId, store, config);
+
+		dispatch({
+			type: types.UPDATE_STORE_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.UPDATE_STORE_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export { getSingleStore, createStoreAction, updateStoreAction };

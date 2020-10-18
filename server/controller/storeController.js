@@ -58,8 +58,8 @@ const createStoreController = async (req, res) => {
 
 // @desc update store
 // @route PUT/api/store/:id
-// @access public/users
-const createStoreController = async (req, res) => {
+// @access private/users
+const updatetStoreController = async (req, res) => {
 	try {
 		const store = await Store.findById(req.params.storeId);
 		if (store) {
@@ -139,4 +139,5 @@ export {
 	createStoreController,
 	createCouponController,
 	setActiveCouponController,
+	updatetStoreController,
 };
