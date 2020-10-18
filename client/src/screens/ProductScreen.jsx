@@ -24,6 +24,9 @@ const ProductScreen = ({history}) => {
   const [isDuplicate, setIsDuplicate] = useState(false);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [couponMessage, setCouponMessage] = useState(null);
+  const [discountPrice, setDiscountPrice] = useState(0);
+  const [coupon, setCoupon] = useState('');
   const { productId } = useParams();
   const dispatch = useDispatch();
   const { product, message, isLoading } = useSelector(
@@ -34,10 +37,12 @@ const ProductScreen = ({history}) => {
     (state) => state.createProductReview
   );
   const { cartProducts } = useSelector((state) => state.cartTotalItem);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-  }, []);
+
+  }, [productId]);
+
   const handleSubmit = e => {
     e.preventDefault()
     if(comment === ''){
@@ -64,12 +69,26 @@ const ProductScreen = ({history}) => {
   };
   
   const handleAddToCart = () => {
-    dispatch(addToCartAction(product, 1));
+    dispatch(addToCartAction({...product, price: Number(discountPrice)}, 1));
     setIsDuplicate(true);
   };
+
+  const handleCoupon = () => {
+    const activeCoupon = product.store.coupons.filter(c => c.isActive && c.token === coupon)
+    if(activeCoupon.length === 1){
+      setDiscountPrice((product.price - (product.price * (activeCoupon[0].discount / 100))).toFixed(2))
+    }else{
+      setCouponMessage('Oops! coupon not valid')
+      setTimeout(()=> {
+        setCouponMessage(null)
+      },4000)
+    }
+  };
+
   useEffect(()=> {
     checkDuplicateProduct(cartProducts, productId);
   }, [cartProducts, productId])
+
   useEffect(()=> {
     if(errorReview === 'Request failed with status code 400'){
       dispatch({
@@ -85,6 +104,7 @@ const ProductScreen = ({history}) => {
       
       }
     }, [dispatch, errorReview])
+
     useEffect(() => {
     if(success){
       alert('Review Submitted')
@@ -98,10 +118,14 @@ const ProductScreen = ({history}) => {
     
   }, [dispatch, productId, success]);
 
+  useEffect(()=> {
+    product.store && setDiscountPrice(product.price)
+  }, [product])
+
   return (
     <div className="productScreen">
         
-      {isLoading || loading ? (
+      {isLoading || loading  ? (
         <Loader />
       ) : message ? (
         <Message variant={"danger"}>{message}</Message>
@@ -123,6 +147,7 @@ const ProductScreen = ({history}) => {
                 <h4>{product?.name}</h4>
               </ListGroup.Item>
               <ListGroup.Item>
+                STORE NAME: 
                 <NavLink to={`/store/${product?.store?._id}`}>
                   <h5>{product?.store?.name}</h5>
                 </NavLink>
@@ -135,7 +160,7 @@ const ProductScreen = ({history}) => {
               </ListGroup.Item>
               <ListGroup.Item>Price: ${product?.price}</ListGroup.Item>
               <ListGroup.Item>
-                Description: ${product?.description}
+                Description: {product?.description}
               </ListGroup.Item>
             </ListGroup>
           </Col>
@@ -146,7 +171,7 @@ const ProductScreen = ({history}) => {
                   <Row>
                     <Col>Price:</Col>
                     <Col>
-                      <strong>${product?.price}</strong>
+                      <strong>${discountPrice}</strong>
                     </Col>
                   </Row>
                 </ListGroupItem>
@@ -170,6 +195,44 @@ const ProductScreen = ({history}) => {
                     </Row>
                   </ListGroupItem>
                 )}
+                <ListGroupItem>
+                    <Row>
+                      {/* <Col>Coupon: </Col>
+                      <Col>
+                      {
+                          product.store?.coupons.map(coupon => {
+                            if(coupon.isActive){
+                             return <p key={coupon._id}>{coupon.token} ({coupon.discount}%)</p>
+                            }
+                          })[0]
+                        }
+                      </Col> */}
+                      <Col>
+                       <Form.Control
+                       value={coupon}
+                        onChange={e => setCoupon(e.target.value)}
+                        placeholder='Your Coupon Here'
+                        ></Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroupItem>
+                   <ListGroupItem>
+                  {
+                    couponMessage && <Message variant="danger">{couponMessage}</Message>
+                  }
+                </ListGroupItem>
+                <ListGroupItem>
+                  <Button
+                    className={`btn btn-block ${
+                      !isDuplicate ? "btn-primary" : "btn-warning"
+                    }`}
+                    disabled={product?.countInStock === 0 || isDuplicate || discountPrice !== product.price}
+                    onClick={handleCoupon}
+                  >
+                    { discountPrice === product.price ?  "Apply Coupon" : "Coupon Applied"}
+                  </Button>
+                </ListGroupItem>
+               
                 <ListGroupItem>
                   <Button
                     className={`btn btn-block ${

@@ -22,7 +22,7 @@ import {
 	createStoreController,
 	getAllStoresController,
 	getStoreController,
-	setActiveCouponController,
+	updateCouponController,
 	updatetStoreController,
 } from '../controller/storeController.js';
 import {
@@ -107,10 +107,12 @@ router
 	.get(getAllStoresController)
 	.post(protect, createStoreController);
 
-router.route('/store/admin/:storeId/coupon').post(createCouponController);
+router
+	.route('/store/admin/:storeId/coupon')
+	.post(protect, isStoreAdmin, createCouponController);
 router
 	.route('/store/admin/:storeId/coupon/:couponId')
-	.put(setActiveCouponController);
+	.put(protect, isStoreAdmin, updateCouponController);
 
 router
 	.route('/store/:storeId')

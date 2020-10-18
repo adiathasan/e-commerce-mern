@@ -144,10 +144,11 @@ const createProductReview = async (req, res) => {
 
 			product.numReviews = product.reviews.length;
 
-			product.ratings =
+			product.rating = (
 				product.reviews.reduce((incrementar, item) => {
 					return item.rating + incrementar;
-				}, 0) / product.reviews.length;
+				}, 0) / product.numReviews
+			).toFixed(1);
 
 			await product.save();
 			res.status(201).send('Review Added');

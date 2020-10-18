@@ -27,13 +27,17 @@ const PlaceOrderScreen = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const VATCost = () => {
-		return Number(getTotalCartPrice(cartProducts) * 0.15).toFixed(0);
+		return Number(getTotalCartPrice(cartProducts) * 0.5).toFixed(2);
 	};
 	const shippingCost = () => {
 		return getTotalCartPrice(cartProducts) > 100 ? 100 : 0;
 	};
 	const TotalPrice = () => {
-		return getTotalCartPrice(cartProducts) + shippingCost() + VATCost();
+		return (
+			Number(getTotalCartPrice(cartProducts)) +
+			Number(shippingCost()) +
+			Number(VATCost())
+		).toFixed(2);
 	};
 	const handlePlaceOrder = () => {
 		dispatch(

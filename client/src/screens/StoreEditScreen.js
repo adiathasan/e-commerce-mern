@@ -3,14 +3,23 @@ import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
+	createCouponAction,
 	createStoreAction,
 	getSingleStore,
+	updateCouponAction,
 	updateStoreAction,
 } from '../actions/storeActions';
 import QueuePlayNextIcon from '@material-ui/icons/QueuePlayNext';
 import Message from '../components/Message';
-import { CREATE_STORE_FAIL, UPDATE_STORE_RESET } from '../CONSTANTS';
+import {
+	CREATE_COUPON_RESET,
+	CREATE_STORE_FAIL,
+	UPDATE_COUPON_RESET,
+	UPDATE_STORE_RESET,
+} from '../CONSTANTS';
 import Loader from '../components/Loader';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
 const StoreEditScreen = () => {
 	const [address, setAddress] = useState('');
@@ -22,65 +31,120 @@ const StoreEditScreen = () => {
 	const [email, setEmail] = useState('');
 	const [coupon, setCoupon] = useState('');
 	const [discount, setDiscount] = useState('');
+	const [active, setActive] = useState(false);
+
 	const { user } = useSelector((state) => state.userInfo);
+
 	const { success, isLoading, message: error } = useSelector(
 		(state) => state.createStore
 	);
+
 	const {
 		success: successUpdate,
 		isLoading: loadingUpdate,
 		message: errorUpdate,
 	} = useSelector((state) => state.updateStore);
+
 	const {
 		success: successDetails,
 		store,
 		isLoading: loadingDetails,
 		message: errorDetails,
 	} = useSelector((state) => state.getStoreDetails);
+
 	const history = useHistory();
+
 	const [
 		searchParams,
 		storeId,
 		couponId,
 		couponToken,
-		couponeDiscount,
+		couponDiscount,
+		couponStatus,
+		createCoupon,
 	] = history.location.search ? history.location.search.split('=') : null;
+
+	const {
+		success: successCouponUpdate,
+		isLoading: loadingCouponUpdate,
+		message: errorCouponUpdate,
+	} = useSelector((state) => state.updateCoupon);
+
+	const {
+		success: successCouponCreate,
+		isLoading: loadingCouponCreate,
+		message: errorCouponCreate,
+	} = useSelector((state) => state.createCoupon);
 
 	const dispatch = useDispatch();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (storeId) {
+		if (createCoupon) {
 			dispatch(
-				updateStoreAction(storeId, {
-					address,
-					city,
-					postalCode,
-					name,
-					contact,
-					email,
+				createCouponAction(storeId, {
+					token: coupon,
+					discount,
+					isActive: active,
 				})
 			);
 		} else {
-			dispatch(
-				createStoreAction({
-					user: user._id,
-					address,
-					city,
-					postalCode,
-					name,
-					contact,
-					email,
-					country: 'Bangladesh',
-				})
-			);
+			if (couponId) {
+				dispatch(
+					updateCouponAction(storeId, couponId, {
+						token: coupon,
+						discount,
+						isActive: active,
+					})
+				);
+			} else {
+				if (storeId) {
+					dispatch(
+						updateStoreAction(storeId, {
+							address,
+							city,
+							postalCode,
+							name,
+							contact,
+							email,
+						})
+					);
+				} else {
+					dispatch(
+						createStoreAction({
+							user: user._id,
+							address,
+							city,
+							postalCode,
+							name,
+							contact,
+							email,
+							country: 'Bangladesh',
+						})
+					);
+				}
+			}
 		}
 	};
 	useEffect(() => {
-		setDiscount(couponeDiscount);
+		setDiscount(couponDiscount);
 		setCoupon(couponToken);
-	}, [couponToken, couponeDiscount]);
+		setActive(couponStatus === 'false' ? false : true);
+	}, [couponToken, couponDiscount, couponStatus]);
 	useEffect(() => {
+		if (successCouponCreate) {
+			history.push('/store/admin/' + storeId);
+			setTimeout(() => {
+				dispatch({ type: CREATE_COUPON_RESET });
+			}, 1000);
+		}
+		if (successCouponUpdate) {
+			setMessage('Coupon Updated Successfully');
+			dispatch({ type: UPDATE_COUPON_RESET });
+			setTimeout(() => {
+				setMessage(null);
+			}, 4000);
+		}
 		if (successUpdate) {
 			setMessage('Store Updated Successfully');
 			dispatch({ type: UPDATE_STORE_RESET });
@@ -91,7 +155,15 @@ const StoreEditScreen = () => {
 		if (storeId) {
 			dispatch(getSingleStore(storeId));
 		}
-	}, [dispatch, storeId, successUpdate, searchParams]);
+	}, [
+		dispatch,
+		storeId,
+		successUpdate,
+		searchParams,
+		successCouponUpdate,
+		successCouponCreate,
+		history,
+	]);
 	useEffect(() => {
 		if (successDetails) {
 			setAddress(store.address);
@@ -114,7 +186,11 @@ const StoreEditScreen = () => {
 			history.push('/login?redirect=profile');
 		}
 	}, [user, history, success, dispatch]);
-	return isLoading || loadingDetails || loadingUpdate ? (
+	return isLoading ||
+		loadingDetails ||
+		loadingUpdate ||
+		loadingCouponUpdate ||
+		loadingCouponCreate ? (
 		<Loader />
 	) : (
 		<Container>
@@ -129,6 +205,12 @@ const StoreEditScreen = () => {
 					{message && <Message variant="success">{message}</Message>}
 					{error && <Message variant="danger">{error}</Message>}
 					{errorDetails && <Message variant="danger">{errorDetails}</Message>}
+					{errorCouponUpdate && (
+						<Message variant="danger">{errorCouponUpdate}</Message>
+					)}
+					{errorCouponCreate && (
+						<Message variant="danger">{errorCouponCreate}</Message>
+					)}
 					{errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
 					<Form onSubmit={handleSubmit}>
 						{couponId ? (
@@ -153,6 +235,14 @@ const StoreEditScreen = () => {
 											setDiscount(e.target.value)
 										}></Form.Control>
 								</Form.Group>
+								Set Active
+								{active ? (
+									<CheckCircleIcon onClick={() => setActive(!active)} />
+								) : (
+									<RadioButtonUncheckedIcon
+										onClick={() => setActive(!active)}
+									/>
+								)}
 							</>
 						) : (
 							<>

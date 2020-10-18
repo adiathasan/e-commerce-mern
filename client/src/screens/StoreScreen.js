@@ -34,14 +34,17 @@ const StoreScreen = () => {
 						<title>{'Khulna-Shop | ' + store.name}</title>
 					</Helmet>
 					<h1 className="mt-3">{store.name} Products</h1>
-					{store.coupons?.length === 0 ? (
-						''
-					) : (
-						<h4 className="mt-3">
-							Todays coupon: {store.coupons && store.coupons[0].token} (
-							{store.coupons && store.coupons[0].discount}%)
-						</h4>
-					)}
+					<h3 className="mt-3">Today's Active coupons: </h3>
+					{store.coupons?.length === 0
+						? ''
+						: store.coupons?.map(
+								(coupon) =>
+									coupon.isActive && (
+										<h4 className="mt-3" key={coupon._id}>
+											{coupon.token} ({coupon.discount}%)
+										</h4>
+									)
+						  )}
 					<Row>
 						{products?.map((product) => {
 							return (
@@ -57,7 +60,7 @@ const StoreScreen = () => {
 							);
 						})}
 					</Row>
-					<Row>
+					<Row className="bg-primary text-white">
 						<Col md={6} sm={12} lg={4} xl={3}>
 							{store.coupons && (
 								<>

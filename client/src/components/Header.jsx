@@ -31,9 +31,9 @@ const Header = () => {
       <Navbar bg="primary" variant="dark" expand="md" collapseOnSelect className=" z4">
         <Container>
           <Navbar.Brand>
-            <NavLink to="/" exact style={{ textDecoration: "none" }}>
+            <NavLink to="/" exact style={{ textDecoration: "none" }} className="d-flex align-items-center">
               <img src="/favicon.ico" className="favicon" alt="" />
-              <span>K-Shop</span>
+              <span style={{ fontSize: '.9rem'}}>Khulna-Shop</span>
             </NavLink>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -85,7 +85,7 @@ const updatetStoreController = async (req, res) => {
 const createCouponController = async (req, res) => {
 	try {
 		const store = await Store.findById(req.params.storeId);
-		console.log(store);
+
 		if (store) {
 			const coupon = {
 				discount: req.body.discount,
@@ -107,24 +107,20 @@ const createCouponController = async (req, res) => {
 // @desc chango coupon status
 // @route PUT/api/store/admin/:storeId/coupon/:couponId
 // @access private/store managers
-const setActiveCouponController = async (req, res) => {
+const updateCouponController = async (req, res) => {
 	try {
 		const store = await Store.findById(req.params.storeId);
-
 		if (store) {
-			let coupons = store.coupons;
-			coupons = coupons.map((coupon) => {
-				console.log(coupon);
+			store.coupons.map((coupon) => {
 				if (coupon._id == req.params.couponId) {
-					coupon.isActive = !coupon.isActive;
-					return coupon;
+					coupon.isActive = req.body.isActive;
+					coupon.discount = req.body.discount;
+					coupon.token = req.body.token;
 				}
-				return coupon;
 			});
-			console.log(coupons);
-			store.coupons = coupons;
+
 			await store.save();
-			res.send('coupon updated to active successfully');
+			res.send('coupon updated successfully');
 		} else {
 			res.send('oops no store found to update the coupon');
 		}
@@ -138,6 +134,6 @@ export {
 	getAllStoresController,
 	createStoreController,
 	createCouponController,
-	setActiveCouponController,
+	updateCouponController,
 	updatetStoreController,
 };

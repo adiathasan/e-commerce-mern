@@ -9,6 +9,7 @@ const getSingleStore = (storeId) => async (dispatch) => {
 		dispatch({
 			type: types.STORE_SINGLE_SUCCESS,
 			payload: data,
+			success: true,
 		});
 	} catch (error) {
 		dispatch({
@@ -77,4 +78,77 @@ const updateStoreAction = (storeId, store) => async (dispatch, getState) => {
 	}
 };
 
-export { getSingleStore, createStoreAction, updateStoreAction };
+const updateCouponAction = (storeId, couponId, coupon) => async (
+	dispatch,
+	getState
+) => {
+	const { token } = getState().userInfo.user;
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + token,
+			},
+		};
+		dispatch({ type: types.UPDATE_COUPON_REQUEST });
+
+		const { data } = await instance.put(
+			`/store/admin/${storeId}/coupon/${couponId}`,
+			coupon,
+			config
+		);
+
+		dispatch({
+			type: types.UPDATE_COUPON_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.UPDATE_COUPON_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+const createCouponAction = (storeId, coupon) => async (dispatch, getState) => {
+	const { token } = getState().userInfo.user;
+	try {
+		const config = {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + token,
+			},
+		};
+		dispatch({ type: types.CREATE_COUPON_REQUEST });
+
+		const { data } = await instance.post(
+			`/store/admin/${storeId}/coupon`,
+			coupon,
+			config
+		);
+
+		dispatch({
+			type: types.CREATE_COUPON_SUCCESS,
+			payload: data,
+		});
+	} catch (error) {
+		dispatch({
+			type: types.CREATE_COUPON_FAIL,
+			message:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		});
+	}
+};
+
+export {
+	getSingleStore,
+	createStoreAction,
+	updateStoreAction,
+	updateCouponAction,
+	createCouponAction,
+};

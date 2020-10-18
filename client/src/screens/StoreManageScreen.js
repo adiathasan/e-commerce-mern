@@ -12,7 +12,6 @@ import { createProductAction } from '../actions/productActions.js';
 import ClearOutlinedIcon from '@material-ui/icons/ClearOutlined';
 import CheckOutlinedIcon from '@material-ui/icons/CheckOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
-import DeleteIcon from '@material-ui/icons/Delete';
 
 const StoreManageScreen = ({ history }) => {
 	const dispatch = useDispatch();
@@ -20,29 +19,31 @@ const StoreManageScreen = ({ history }) => {
 	const { store, products, isLoading, message } = useSelector(
 		(state) => state.getStoreDetails
 	);
+	const { user } = useSelector((state) => state.userInfo);
 	const {
 		success: successCreate,
 		isLoading: loadingCreate,
 		message: errorCreate,
 		product: createdProduct,
 	} = useSelector((state) => state.productCreate);
+
 	useEffect(() => {
+		if (!user || user.store[0]._id !== storeId) {
+			history.push('/login');
+		}
 		if (successCreate) {
 			history.push('/admin/product/' + createdProduct._id + '/edit');
 		} else {
 			dispatch(getSingleStore(storeId));
 		}
-	}, [dispatch, storeId, createdProduct, successCreate, history]);
+	}, [dispatch, storeId, createdProduct, successCreate, history, user]);
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
 
 	const handleCreateProduct = () => {
 		dispatch(createProductAction());
-	};
-
-	const handleDelete = (couponId) => {
-		//
 	};
 
 	return (
@@ -58,15 +59,18 @@ const StoreManageScreen = ({ history }) => {
 					<Helmet>
 						<title>{'Khulna-Shop | ' + store.name}</title>
 					</Helmet>
-					<h1 className="mt-3">{store.name} Products</h1>
-					{store.coupons?.length === 0 ? (
-						''
-					) : (
-						<h4 className="mt-3">
-							Todays coupon: {store.coupons && store.coupons[0].token} (
-							{store.coupons && store.coupons[0].discount}%)
-						</h4>
-					)}
+					<h1 className="mt-3">{store.name}</h1>
+					<h3 className="mt-3">Today's Active coupons: </h3>
+					{store.coupons?.length === 0
+						? ''
+						: store.coupons?.map(
+								(coupon) =>
+									coupon.isActive && (
+										<h4 className="mt-3" key={coupon._id}>
+											{coupon.token} ({coupon.discount}%)
+										</h4>
+									)
+						  )}
 					<Row className="text-center">
 						<Col md={4}>
 							<Button
@@ -91,7 +95,11 @@ const StoreManageScreen = ({ history }) => {
 								style={{ marginBottom: '1rem' }}
 								variant="contained"
 								onClick={() => {
-									history.push('/createstore?id=' + store._id);
+									history.push(
+										`/createstore?id=${
+											store._id
+										}=${'coupon-no-id'}=${'Sample Coupon'}=${' '}=${'false'}=${'createCoupon'}`
+									);
 								}}>
 								Create coupon
 							</Button>
@@ -104,7 +112,7 @@ const StoreManageScreen = ({ history }) => {
 								<th>TOKEN NAME</th>
 								<th>ACTIVE</th>
 								<th>DISCOUNT(%)</th>
-								<th>CHANGE STATUS</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -114,7 +122,7 @@ const StoreManageScreen = ({ history }) => {
 										<td>{coupon._id}</td>
 										<td>{coupon.token}</td>
 										<td>
-											{coupon.isAcive ? (
+											{coupon.isActive ? (
 												<CheckOutlinedIcon
 													style={{ color: 'green', transform: 'scale(.85)' }}
 												/>
@@ -129,24 +137,17 @@ const StoreManageScreen = ({ history }) => {
 											<Button
 												onClick={() => {
 													history.push(
-														`/createstore?id=${store._id}=${coupon._id}=${coupon.token}=${coupon.discount}`
+														`/createstore?id=${store._id}=${coupon._id}=${coupon.token}=${coupon.discount}=${coupon.isActive}`
 													);
 												}}
 												variant="contained"
 												className="btn-sm">
 												<EditOutlinedIcon
 													style={{
-														color: 'lightblue',
+														color: 'blue',
 														transform: 'scale(.85)',
 													}}
 												/>
-											</Button>
-
-											<Button
-												variant="contained"
-												onClick={() => handleDelete(coupon._id)}
-												className="btn-sm">
-												<DeleteIcon />
 											</Button>
 										</td>
 									</tr>

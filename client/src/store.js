@@ -32,8 +32,10 @@ import {
 	orderDeliverReducer,
 } from './reducers/orderReducers';
 import {
+	createCouponReducer,
 	createStoreReducer,
 	storeDetailsReducer,
+	updateCouponReducer,
 	updateStoreReducer,
 } from './reducers/storeReducers';
 
@@ -63,6 +65,8 @@ const rootReducer = combineReducers({
 	getStoreDetails: storeDetailsReducer,
 	createStore: createStoreReducer,
 	updateStore: updateStoreReducer,
+	updateCoupon: updateCouponReducer,
+	createCoupon: createCouponReducer,
 });
 
 const cartFromLocalStorage = localStorage.getItem('cart')

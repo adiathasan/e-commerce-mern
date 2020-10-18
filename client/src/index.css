@@ -25,7 +25,8 @@ header {
 }
 
 .favicon {
-	height: 30px;
+	height: 36px;
+	margin-right: 0.2rem;
 }
 
 .car {
@@ -40,7 +41,7 @@ header {
 
 .car img {
 	margin: 2rem 0 0 0;
-	height: 200px;
+	height: 220px;
 	border-radius: 99px;
 }
 
@@ -72,7 +73,7 @@ header a:hover {
 }
 
 .active {
-	color: #00a2ff;
+	color: #00c3ff;
 }
 
 .MuiSvgIcon-root {

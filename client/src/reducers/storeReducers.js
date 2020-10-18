@@ -81,4 +81,60 @@ const updateStoreReducer = (state = {}, action) => {
 	}
 };
 
-export { storeDetailsReducer, createStoreReducer, updateStoreReducer };
+const updateCouponReducer = (state = {}, action) => {
+	switch (action.type) {
+		case types.UPDATE_COUPON_REQUEST:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case types.UPDATE_COUPON_SUCCESS:
+			return {
+				isLoading: false,
+				success: true,
+			};
+		case types.UPDATE_COUPON_FAIL:
+			return {
+				isLoading: false,
+				message: action.message,
+			};
+		case types.UPDATE_COUPON_RESET:
+			return {};
+
+		default:
+			return state;
+	}
+};
+
+const createCouponReducer = (state = {}, action) => {
+	switch (action.type) {
+		case types.CREATE_COUPON_REQUEST:
+			return {
+				...state,
+				isLoading: true,
+			};
+		case types.CREATE_COUPON_SUCCESS:
+			return {
+				isLoading: false,
+				success: true,
+			};
+		case types.CREATE_COUPON_FAIL:
+			return {
+				isLoading: false,
+				message: action.message,
+			};
+		case types.CREATE_COUPON_RESET:
+			return {};
+
+		default:
+			return state;
+	}
+};
+
+export {
+	storeDetailsReducer,
+	createStoreReducer,
+	updateStoreReducer,
+	updateCouponReducer,
+	createCouponReducer,
+};

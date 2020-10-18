@@ -110,7 +110,7 @@ const CartScreen = ({history}) => {
                 Subtotal ({getTotalCartItem(cartProducts)}){" "}
                 {getTotalCartItem(cartProducts) > 1 ? "items" : "item"}
               </h4>
-              ${getTotalCartPrice(cartProducts)}
+              ${getTotalCartPrice(cartProducts).toFixed(2)}
             </ListGroupItem>
           </ListGroup>
           <ListGroupItem>
