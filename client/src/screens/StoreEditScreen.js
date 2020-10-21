@@ -62,7 +62,7 @@ const StoreEditScreen = () => {
 		couponDiscount,
 		couponStatus,
 		createCoupon,
-	] = history.location.search ? history.location.search.split('=') : null;
+	] = history.location.search ? history.location.search.split('=') : [null];
 
 	const {
 		success: successCouponUpdate,
