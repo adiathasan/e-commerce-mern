@@ -167,7 +167,24 @@ const UPDATE_COUPON_SUCCESS = 'UPDATE_COUPON_SUCCESS';
 const UPDATE_COUPON_FAIL = 'UPDATE_COUPON_FAIL';
 const UPDATE_COUPON_RESET = 'UPDATE_COUPON_RESET';
 
+// ALAN COMMANDS
+
+const OPEN_HOME = 'open-home';
+const OPEN_CART = 'open-cart';
+const OPEN_PROFILE = 'open-profile';
+const PROCEED_TO_CHECK_OUT = 'proceed-to-checkout';
+const ADD_ITEM_TO_CART = 'add-item-to-cart';
+const REMOVE_ITEM_FROM_CART = 'remove-item-from-cart';
+const RESET_COMMANDS = 'reset-commands';
+
 export {
+	OPEN_HOME,
+	OPEN_CART,
+	OPEN_PROFILE,
+	PROCEED_TO_CHECK_OUT,
+	ADD_ITEM_TO_CART,
+	REMOVE_ITEM_FROM_CART,
+	RESET_COMMANDS,
 	PRODUCT_LIST_REQUEST,
 	PRODUCT_LIST_SUCCESS,
 	PRODUCT_LIST_FAIL,

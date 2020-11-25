@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { PayPalButton } from 'react-paypal-button-v2';
+// import { PayPalButton } from 'react-paypal-button-v2';
 import {
 	Row,
 	Col,
@@ -44,13 +44,13 @@ const OrderScreen = ({ history }) => {
 			{isLoading ? (
 				<Loader />
 			) : message ? (
-				<Message variant="danger">{message}</Message>
+				<Message variant='danger'>{message}</Message>
 			) : (
 				<>
 					<Row>
 						<Col md={7}>
 							<h5>Order No: {order._id}</h5>
-							<ListGroup variant="flush">
+							<ListGroup variant='flush'>
 								<ListGroupItem>
 									<h4>Shipping</h4>
 									<p>
@@ -70,11 +70,11 @@ const OrderScreen = ({ history }) => {
 										{order.shippingAddress.country}
 									</p>
 									{order.isDelivered ? (
-										<Message variant="success">
+										<Message variant='success'>
 											Delivered on {order?.paidAt}
 										</Message>
 									) : (
-										<Message variant="warning">not Delivered</Message>
+										<Message variant='warning'>not Delivered</Message>
 									)}
 								</ListGroupItem>
 								<ListGroupItem>
@@ -84,9 +84,9 @@ const OrderScreen = ({ history }) => {
 										{order.paymentMethod}
 									</p>
 									{order.isPaid ? (
-										<Message variant="success">paid on {order?.paidAt}</Message>
+										<Message variant='success'>paid on {order?.paidAt}</Message>
 									) : (
-										<Message variant="warning">not paid</Message>
+										<Message variant='warning'>not paid</Message>
 									)}
 								</ListGroupItem>
 								<ListGroupItem>
@@ -94,7 +94,7 @@ const OrderScreen = ({ history }) => {
 									{order.orderedItems.length === 0 ? (
 										<Message>Your Order is empty</Message>
 									) : (
-										<ListGroup variant="flush">
+										<ListGroup variant='flush'>
 											{order.orderedItems.map((item) => {
 												return (
 													<ListGroupItem key={item.cartProduct._id}>
@@ -127,23 +127,23 @@ const OrderScreen = ({ history }) => {
 						</Col>
 						<Col md={5}>
 							<Card>
-								<ListGroup variant="flush">
+								<ListGroup variant='flush'>
 									<ListGroupItem>
 										<h4>Order Summery</h4>
 									</ListGroupItem>
-									<ListGroupItem className="d-flex align-items-center justify-content-center">
+									<ListGroupItem className='d-flex align-items-center justify-content-center'>
 										<Col>Items:</Col>
 										<Col>${getTotalCartPrice(order.orderedItems)}</Col>
 									</ListGroupItem>
-									<ListGroupItem className="d-flex align-items-center justify-content-center">
+									<ListGroupItem className='d-flex align-items-center justify-content-center'>
 										<Col>Shipping:</Col>
 										<Col>${order.shippingPrice}</Col>
 									</ListGroupItem>
-									<ListGroupItem className="d-flex align-items-center justify-content-center">
+									<ListGroupItem className='d-flex align-items-center justify-content-center'>
 										<Col>VAT:</Col>
 										<Col>${order.vat}</Col>
 									</ListGroupItem>
-									<ListGroupItem className="d-flex align-items-center justify-content-center">
+									<ListGroupItem className='d-flex align-items-center justify-content-center'>
 										<Col>Total:</Col>
 										<Col>${order.totalPrice}</Col>
 									</ListGroupItem>

@@ -38,6 +38,7 @@ import {
 	updateCouponReducer,
 	updateStoreReducer,
 } from './reducers/storeReducers';
+import { alanCommandsReducer } from './reducers/alanComamndReducer';
 
 const rootReducer = combineReducers({
 	productList: productListReducer,
@@ -67,6 +68,7 @@ const rootReducer = combineReducers({
 	updateStore: updateStoreReducer,
 	updateCoupon: updateCouponReducer,
 	createCoupon: createCouponReducer,
+	alanCommands: alanCommandsReducer,
 });
 
 const cartFromLocalStorage = localStorage.getItem('cart')
