@@ -6,6 +6,11 @@ body {
 	overflow-x: hidden;
 }
 
+li,
+ul {
+	list-style: none;
+}
+
 .home__product {
 	border-radius: 6px;
 	box-shadow: 0 0px 6px -5px #0000007e;
@@ -78,4 +83,63 @@ header a:hover {
 
 .MuiSvgIcon-root {
 	cursor: pointer;
+}
+
+.commands {
+	position: fixed;
+	bottom: 6.5rem;
+	width: 500px;
+	max-width: 100%;
+	right: 1rem;
+	font-size: larger;
+	color: white;
+	padding: 0.8rem;
+	border-radius: 20px;
+	border: 5px solid gray;
+	clip-path: circle(19.5% at 97% 100%);
+	z-index: 1000000;
+	cursor: pointer;
+	transition: 0.7s ease-in all;
+	background: linear-gradient(90deg, rgb(7, 40, 68), rgb(4, 110, 248));
+}
+
+.commands li {
+	margin: 0.5rem auto;
+	background-color: #022749;
+	border-radius: 10px;
+	padding: 0.5rem;
+	box-shadow: 0 0 10px 1px rgba(2, 204, 255, 0.5);
+	text-transform: capitalize;
+}
+
+.commands li span {
+	padding: 0 0.4rem;
+	border-right: 6px solid #5dbeff;
+	text-transform: lowercase;
+}
+
+.commands p {
+	position: absolute;
+	bottom: -1rem;
+	right: 0;
+	text-align: center;
+	color: white;
+	padding: 0.4rem;
+	border-radius: 10px;
+}
+
+.commands:hover {
+	clip-path: circle(100% at 50% 50%);
+}
+
+@media (max-width: 500px) {
+	.commands {
+		bottom: -0.5rem;
+		left: 0px;
+		width: 100vw;
+		clip-path: circle(16.8% at 97% 100%);
+	}
+	.commands p {
+		right: -0.5rem;
+	}
 }

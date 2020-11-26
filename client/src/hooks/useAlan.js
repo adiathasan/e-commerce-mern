@@ -31,7 +31,7 @@ const useAlan = () => {
 		setTimeout(() => {
 			dispatch({ type: RESET_COMMANDS });
 		}, 1000);
-	}, [alan]);
+	}, [alan, dispatch]);
 
 	const openCheckOutFunc = () => {
 		if (alan) {
@@ -67,7 +67,7 @@ const useAlan = () => {
 		setTimeout(() => {
 			dispatch({ type: RESET_COMMANDS });
 		}, 1000);
-	}, [alan]);
+	}, [alan, dispatch]);
 
 	// add item to cart
 

@@ -3,12 +3,7 @@ import Footer from './components/Footer.jsx';
 import Header from './components/Header.jsx';
 import { Container } from 'react-bootstrap';
 import './index.css';
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	useHistory,
-} from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import HomeScreen from './screens/HomeScreen.jsx';
 import ProductScreen from './screens/ProductScreen.jsx';
 import CartScreen from './screens/CartScreen.jsx';
@@ -29,6 +24,7 @@ import StoreEditScreen from './screens/StoreEditScreen.js';
 import StoreManageScreen from './screens/StoreManageScreen.js';
 import useAlan from './hooks/useAlan';
 import { useSelector } from 'react-redux';
+import Commands from './components/Commands.jsx';
 
 const App = () => {
 	useAlan();
@@ -94,8 +90,8 @@ const App = () => {
 						<Route path='/store/admin/:storeId' component={StoreManageScreen} />
 					</Switch>
 				</Container>
+				<Commands />
 			</main>
-
 			<Footer />
 		</>
 	);
