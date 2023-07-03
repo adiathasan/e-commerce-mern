@@ -11,6 +11,7 @@ const dbConfig = async () => {
 		const conn = await mongoose.connect(DB_URI_KEY, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
+			useCreateIndex: true,
 		});
 		console.log(`connected to ${conn.connection.host}`);
 	} catch (error) {
