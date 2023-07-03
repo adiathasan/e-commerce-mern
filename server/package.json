@@ -7,6 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon /server.js",
+    "start:prod": "nodemon /server.js",
     "data:migrate": "node seeder.js",
     "data:destroy": "node seeder.js -d"
   },
