@@ -30,9 +30,7 @@ const App = () => {
 	useAlan();
 	const history = useHistory();
 
-	const { openCart, openHome, openCheckOut, openProfile } = useSelector(
-		(state) => state.alanCommands
-	);
+	const { openCart, openHome, openCheckOut, openProfile } = useSelector((state) => state.alanCommands);
 
 	useEffect(() => {
 		if (openCart) {
@@ -52,28 +50,17 @@ const App = () => {
 	return (
 		<>
 			<Header />
-			<main className='py-3'>
+			<main className='py-3' style={{ minHeight: '90vh' }}>
 				<Container>
 					<Switch>
 						<Route path='/search/:keyword' exact component={HomeScreen} />
-						<Route
-							path='`/search/:keyword/page/:pageNumber'
-							exact
-							component={HomeScreen}
-						/>
+						<Route path='`/search/:keyword/page/:pageNumber' exact component={HomeScreen} />
 						<Route path='/page/:pageNumber' exact component={HomeScreen} />
 						<Route path='/' exact component={HomeScreen} />
 						<Route path='/store/:storeId' exact component={StoreScreen} />
 						<Route path='/product/:productId' component={ProductScreen} />
-						<Route
-							path='/admin/product/:productId/edit'
-							component={ProductEditScreen}
-						/>
-						<Route
-							path='/admin/products/:pageNumber'
-							component={ProductListScreen}
-							exact
-						/>
+						<Route path='/admin/product/:productId/edit' component={ProductEditScreen} />
+						<Route path='/admin/products/:pageNumber' component={ProductListScreen} exact />
 						<Route path='/admin/products' component={ProductListScreen} exact />
 						<Route path='/cart/:productId?' component={CartScreen} />
 						<Route path='/login' component={LoginScreen} />

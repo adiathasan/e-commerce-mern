@@ -80,9 +80,7 @@ const useAlan = () => {
 			});
 
 			if (foundItem) {
-				const alreadyInCart = cartProducts.find((p) =>
-					regex.test(p.cartProduct.name.toLowerCase())
-				);
+				const alreadyInCart = cartProducts.find((p) => regex.test(p.cartProduct.name.toLowerCase()));
 				if (alreadyInCart) {
 					alan.playText(`${detail} already in the cart`);
 				} else {

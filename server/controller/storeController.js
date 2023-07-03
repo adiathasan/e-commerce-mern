@@ -52,7 +52,7 @@ const createStoreController = async (req, res) => {
 			res.status(201).json(createdStore);
 		}
 	} catch (error) {
-		res.status(401).sjson(error);
+		res.status(401).json(error);
 	}
 };
 
