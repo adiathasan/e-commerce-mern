@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message.jsx';
 import Loader from '../components/Loader.jsx';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import {
-	getUserDetailsAction,
-	updateUserDetailsFromAdminAction,
-} from '../actions/userActions.js';
+import { getUserDetailsAction, updateUserDetailsFromAdminAction } from '../actions/userActions.js';
 import { USER_UPDATE_RESET } from '../CONSTANTS.js';
 
 const UserEditScreen = () => {
@@ -18,9 +15,7 @@ const UserEditScreen = () => {
 	const history = useHistory();
 	const { userId } = useParams();
 	const { userProfile, isLoading } = useSelector((state) => state.userDetails);
-	const { isLoading: loading, message, success } = useSelector(
-		(state) => state.userUpdateFromAdmin
-	);
+	const { isLoading: loading, message, success } = useSelector((state) => state.userUpdateFromAdmin);
 
 	useEffect(() => {
 		if (success) {
@@ -55,14 +50,14 @@ const UserEditScreen = () => {
 	return isLoading || loading ? (
 		<Loader />
 	) : message ? (
-		<Message variant="danger">{message}</Message>
+		<Message variant='danger'>{message}</Message>
 	) : (
 		<>
-			<Link to="/admin/users" className="btn btn-light m-y">
+			<Link to='/admin/users' className='btn btn-light m-y'>
 				Go back
 			</Link>
 			<Container>
-				<Row className="justify-content-md-center">
+				<Row className='justify-content-md-center'>
 					<Col xs={12} md={6}>
 						<h1>Edit User</h1>
 
@@ -71,8 +66,8 @@ const UserEditScreen = () => {
 								<Form.Label>Name</Form.Label>
 								<Form.Control
 									required
-									type="text"
-									placeholder="Enter Name"
+									type='text'
+									placeholder='Enter Name'
 									value={name}
 									onChange={(e) => setName(e.target.value)}></Form.Control>
 							</Form.Group>
@@ -80,22 +75,19 @@ const UserEditScreen = () => {
 								<Form.Label>Email</Form.Label>
 								<Form.Control
 									required
-									type="email"
-									placeholder="Enter Email"
+									type='email'
+									placeholder='Enter Email'
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}></Form.Control>
 							</Form.Group>
 							<Form.Group>
 								<Form.Check
 									checked={isAdmin}
-									type="checkbox"
-									label="Is Admin"
+									type='checkbox'
+									label='Is Admin'
 									onChange={(e) => setIsAdmin(e.target.checked)}></Form.Check>
 							</Form.Group>
-							<Button
-								variant="primary"
-								type="submit"
-								className="mt-2 btn-block">
+							<Button variant='primary' type='submit' className='mt-2 btn-block'>
 								Update
 							</Button>
 						</Form>
